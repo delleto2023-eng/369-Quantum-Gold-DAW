@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>369 Showroom</title>
+<style>body{margin:0;background:#120c04;color:#f5d77a;font-family:Georgia,serif;text-align:center}h1{padding:16px;margin:0;font-size:26px}
+.card{max-width:900px;margin:18px auto;padding:14px;border:2px solid #c9a227;border-radius:14px;background:#1d1408}
+img,video{width:100%;border-radius:10px;margin:6px 0}a.play{display:inline-block;margin:8px;padding:12px 22px;background:linear-gradient(#f9e08a,#b8860b);color:#1a1000;border-radius:30px;font-weight:bold;text-decoration:none}</style></head><body>
+<h1>💎 369 Showroom: play every build</h1><div id="c"></div>
+<script>
+var B=[["DAW","Gold DAW v3.4.2","../v342.html",["daw-v3.4-tour.mp4"]],
+["v4.5","369 Casino v4.5 Big Win","../casino45.html",["casino-v4.5-bigwin.png"]],
+["v4.4","369 Casino v4.4 Extreme OG","../play/casino-v4.4.html",["casino-v4.4-fullmachine.mp4","casino-v4.4-preview.mp4","casino-v4.4-fullmachine-ex1.png","casino-v4.4-fullmachine-ex2.png","casino-v4.4-fullmachine-ex3.png","casino-v4.4-ex1.png","casino-v4.4-ex2.png","casino-v4.4-ex3.png"]],
+["v4.3","369 Casino v4.3 Logo Gold","../play/casino-v4.3.html",["casino-v4.3-preview.mp4","casino-v4.3-ex1.png","casino-v4.3-ex2.png","casino-v4.3-ex3.png"]],
+["v4.2","369 Casino v4.2 Nine","../play/casino-v4.2.html",["casino-v4.2-preview.mp4"]],
+["v4.1","369 Casino v4.1 Cursive Diamonds","../play/casino-v4.1.html",["casino-v4.1-preview.mp4","casino-v4.1-ex1.png","casino-v4.1-ex2.png","casino-v4.1-ex3.png"]],
+["v4.0","369 Casino v4.0 Diamond Royals","../play/casino-v4.0.html",["casino-v4.0-preview.mp4","casino-v4.0-ex1.png","casino-v4.0-ex2.png","casino-v4.0-ex3.png"]]];
+var h="";B.forEach(function(b){h+='<div class="card"><h2>'+b[1]+'</h2><a class="play" href="'+b[2]+'">▶ PLAY / OPEN</a>';
+b[3].forEach(function(f){h+=/mp4$/.test(f)?'<video src="'+f+'" controls playsinline preload="metadata"></video>':'<img src="'+f+'" loading="lazy">'});h+='</div>'});
+document.getElementById("c").innerHTML=h;</script></body></html>
