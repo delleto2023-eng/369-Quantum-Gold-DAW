@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>369 Gold DAW v3.5 Royal Studio</title>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>369 Gold DAW v3.5.1 Royal Studio</title>
 <style>
 :root{--g:#f5c84c;--g2:#8a6417;--bg:#0c0905;--pn:#1a130a;--tx:#fbecc4;--ac:#ffe9a8}
 body.solid24{--g:#ffd34d;--g2:#b07a10;--bg:#1a1003;--pn:#2a1c06;--tx:#fff2c8;--ac:#fff}
@@ -32,7 +32,7 @@ canvas{width:100%;background:#0007;border:1px solid var(--g2);border-radius:8px;
 #tony{position:fixed;right:10px;bottom:10px;width:min(330px,92vw);z-index:5}#tlog{max-height:110px;overflow:auto;font-size:12px}
 small{opacity:.75}
 </style></head><body>
-<header><span class="logo">369 GOLD DAW v3.5</span><small>Royal Studio</small>
+<header><span class="logo">369 GOLD DAW v3.5.1</span><small>Royal Studio</small>
 <button id="play">▶ PLAY</button><button id="stop">■ STOP</button><button id="rec">● REC</button>
 <span>BPM <input id="bpm" type="number" value="96" min="40" max="220" style="width:64px"></span>
 <span class="sw" id="metro"></span><small>Click</small>
@@ -209,4 +209,31 @@ function ask(t){const d=document.createElement('div');d.textContent='You: '+t;d.
 $('#tgo').onclick=()=>{const v=$('#tin').value.trim();if(v){ask(v);$('#tin').value=''}};$('#tin').onkeydown=e=>{if(e.key=='Enter')$('#tgo').onclick()};
 // start with a ready beat (no audio until first tap; no loading screen)
 aiPattern('trap');aiMelody('phryg');S.bpm=96;paint();show('rack');
-</script></body></html>
+</script><!-- 369 Dev Agents panel v3.5.1 -->
+<style>
+#da369b{position:fixed;right:14px;bottom:14px;z-index:99999;background:linear-gradient(135deg,#f7d774,#b8860b);color:#1a1205;border:0;border-radius:22px;padding:10px 16px;font:700 14px system-ui;box-shadow:0 0 18px #d4af37aa;cursor:pointer}
+#da369{position:fixed;inset:5% 4%;z-index:99998;display:none;background:#0c0905f2;border:2px solid #d4af37;border-radius:16px;color:#f5e6b8;font:14px system-ui;overflow:auto;padding:18px;box-shadow:0 0 40px #d4af3766}
+#da369 h2{margin:0 0 4px;color:#f7d774}#da369 .g{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-top:12px}
+#da369 .c{border:1px solid #8a6d1d;border-radius:12px;padding:12px;background:#1a1308}#da369 .c b{color:#f7d774;font-size:16px}
+#da369 code{display:block;background:#000;padding:6px;border-radius:6px;margin:6px 0;word-break:break-all;color:#9fe}
+#da369 button.k{background:#d4af37;border:0;border-radius:8px;padding:5px 9px;margin:2px;cursor:pointer;font-weight:700}
+#da369 a{color:#ffd76e}#da369 .t{font-size:11px;color:#c9a94a;text-transform:uppercase}
+</style>
+<button id="da369b" title="Big Tony Dev Agents">369 Dev Agents</button>
+<div id="da369"><div style="display:flex;justify-content:space-between"><div><h2>Big Tony · 369 Dev Agents</h2><div>Free, open-source coding agents. Copy the install command, run it on your desktop, then paste a prompt.</div></div><button class="k" onclick="da369.style.display='none'">Close ✕</button></div><div class="g" id="da369g"></div></div>
+<script>
+(function(){var T=[
+["OpenCode","#1 pick","Terminal AI coding agent. Works with free local models (Ollama/Qwen) or your own key.","https://github.com/anomalyco/opencode","npm i -g opencode-ai","Read this project and add a new 369 effect plug-in window to the DAW."],
+["Ruflo","Agent team","Runs a team (swarm) of AI agents that split up a big coding job.","https://github.com/ruvnet/ruflo","npx ruflo@latest init","Plan and build the 369 desktop installer with a team of agents."],
+["goose","Desktop assistant","Open-source desktop AI agent that can run tasks, edit files and use extensions.","https://github.com/aaif-goose/goose","See install steps on the GitHub page (desktop app download)","Open my Gold DAW folder and fix anything that stops it loading."],
+["Claude Plugins","Security & skills","Official plug-in collection for Claude Code (code review, security scanning and more). Needs Claude Code.","https://github.com/anthropics/claude-plugins-official","/plugin marketplace add anthropics/claude-plugins-official","Run a security review on the 369 DAW repo."],
+["Android Skills","Mobile","Android skills for AI agents, to help build a phone app version.","https://github.com/android/skills","git clone https://github.com/android/skills","Help me wrap the 369 DAW as an Android app."],
+["Ollama","Bonus · local brain","Runs free AI models on your computer. Powers Big Tony's Qwen brain.","https://github.com/ollama/ollama","ollama pull qwen2.5-coder","Explain this DAW code in simple words."],
+["Aider","Bonus · pair coder","Free AI pair programmer in the terminal that edits your Git repo.","https://github.com/Aider-AI/aider","pip install aider-install && aider-install","Add a gold VU meter to the mixer."],
+["Continue","Bonus · VS Code","Free open-source AI assistant inside VS Code, works with Ollama.","https://github.com/continuedev/continue","Install \"Continue\" from the VS Code extensions store","Refactor the piano roll for speed."],
+["Open WebUI","Bonus · chat app","Free ChatGPT-style app for your local Ollama models.","https://github.com/open-webui/open-webui","pip install open-webui && open-webui serve","Write 9 lyric ideas for a 369 track."]];
+var g=document.getElementById('da369g');T.forEach(function(t){var d=document.createElement('div');d.className='c';d.innerHTML='<div class="t">'+t[1]+'</div><b>'+t[0]+'</b><p>'+t[2]+'</p><code>'+t[4]+'</code><button class="k" data-c>Copy install</button><button class="k" data-p>Copy prompt</button> <a href="'+t[3]+'" target="_blank">GitHub ↗</a>';d.querySelector('[data-c]').onclick=function(){navigator.clipboard.writeText(t[4]);this.textContent='Copied ✓'};d.querySelector('[data-p]').onclick=function(){navigator.clipboard.writeText(t[5]);this.textContent='Copied ✓'};g.appendChild(d)});
+document.getElementById('da369b').onclick=function(){var p=document.getElementById('da369');p.style.display=p.style.display=='block'?'none':'block'}})();
+</script>
+
+</body></html>
