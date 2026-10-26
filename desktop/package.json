@@ -1,0 +1,3 @@
+{"name":"369-gold-daw","productName":"369 Gold DAW","version":"3.5.0","main":"main.js","scripts":{"start":"electron .","dist":"electron-builder --publish never"},
+"devDependencies":{"electron":"^31.0.0","electron-builder":"^24.13.3"},
+"build":{"appId":"com.delleto.369golddaw","files":["main.js","index.html"],"win":{"target":"portable"},"mac":{"target":"zip"},"linux":{"target":"AppImage"}}}
