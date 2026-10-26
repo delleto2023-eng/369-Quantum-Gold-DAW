@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>369 Quantum Gold v3.4.8</title><script>
+(function(){function show(m){var d=document.getElementById('q369err');if(!d){d=document.createElement('div');d.id='q369err';d.style.cssText='position:fixed;left:8px;right:8px;top:8px;z-index:99999;background:#b00020;color:#fff;font:14px monospace;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent+=m+'\n'}
+window.addEventListener('error',function(e){show('ERROR: '+e.message+' (line '+e.lineno+')')});
+window.addEventListener('unhandledrejection',function(e){show('ERROR: '+(e.reason&&e.reason.message||e.reason))});
+window.addEventListener('load',function(){var st=document.getElementById('stage');if(!st||!st.innerHTML.trim())show('369 Quantum Gold did not finish loading. Screenshot this and send it to Noen.');var l=document.getElementById('q369load');if(l)l.remove()});})();
+</script>
+<style>
+:root{--a:#f5c542;--b:#ffe9a8;--bg:#07060a;--p:rgba(40,30,8,.55);--g:rgba(245,197,66,.35)}
+body.violet{--a:#b07cff;--b:#e6d4ff;--bg:#08041a;--p:rgba(40,20,70,.55);--g:rgba(176,124,255,.35)}
+body.ocean{--a:#3fe0d0;--b:#c8fff8;--bg:#02111a;--p:rgba(5,45,60,.55);--g:rgba(63,224,208,.35)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 30%,#1a1a2a,var(--bg) 70%);color:var(--b);font:14px system-ui,Segoe UI,sans-serif;height:100vh;overflow:hidden}
+#top{display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:1px solid var(--g);background:var(--p);backdrop-filter:blur(8px)}
+#top h1{font-size:16px;margin:0;color:var(--a);letter-spacing:2px}#clock{margin-left:auto;font-family:monospace;color:var(--a)}
+#main{display:flex;height:calc(100vh - 46px)}#side{width:210px;overflow:auto;border-right:1px solid var(--g);background:var(--p)}
+#side button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--b);padding:9px 14px;cursor:pointer;border-left:3px solid transparent}
+#side button.on,#side button:hover{border-left-color:var(--a);background:var(--g);color:#fff}
+#stage{flex:1;overflow:auto;padding:18px;position:relative}
+.win{display:none}.win.on{display:block}h2{color:var(--a);margin:0 0 10px;letter-spacing:1px}
+.panel{background:var(--p);border:1px solid var(--g);border-radius:14px;padding:12px;margin:0 0 12px;box-shadow:0 0 24px var(--g) inset}
+button.k,select,input,textarea{background:#0008;color:var(--b);border:1px solid var(--a);border-radius:8px;padding:6px 10px;margin:3px;font:inherit}
+button.k{cursor:pointer}button.k:hover{background:var(--a);color:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tile{padding:10px;border:1px solid var(--g);border-radius:10px;background:#0006}
+.seq{display:grid;grid-template-columns:70px repeat(16,1fr);gap:3px}.cell{height:22px;border-radius:4px;background:#ffffff14;cursor:pointer}.cell.on{background:var(--a);box-shadow:0 0 8px var(--a)}.cell.now{outline:1px solid #fff}
+canvas{background:#0008;border:1px solid var(--g);border-radius:10px;max-width:100%}
+#ring{width:90px;height:90px;border-radius:50%;border:6px solid var(--a);box-shadow:0 0 30px var(--a);margin:auto;transition:.2s}#ring.talk{transform:scale(1.15)}
+#log{height:220px;overflow:auto;font-family:monospace;font-size:13px}.small{opacity:.75;font-size:12px}
+.phone{width:300px;height:560px;border:3px solid var(--a);border-radius:36px;padding:20px 14px;background:#000a;position:relative}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;font-size:11px}.apps div{cursor:pointer}.apps b{display:block;font-size:24px}
+#hud{position:fixed;right:20px;bottom:20px;width:120px;height:120px;border:1px dashed var(--a);border-radius:50%;animation:sp 12s linear infinite;pointer-events:none;opacity:.5}@keyframes sp{to{transform:rotate(360deg)}}
+</style></head><body>
+<div id="top"><h1>⟁ 369 QUANTUM GOLD v3.4.8</h1>
+<select id="theme"><option value="">👑 Divine Gold</option><option value="violet">🔮 Celestial Violet</option><option value="ocean">🌊 Ocean Crystal</option></select>
+<span id="ro" class="small"></span><span id="clock"></span></div>
+<div id="main"><div id="side"></div><div id="stage"><div id="q369load" style="padding:30px;color:#f5c542;font-size:18px">Loading 369 Quantum Gold v3.4.8...</div></div></div><div id="hud"></div>
+
+
+
+
+
+
+<script>
+try{localStorage.getItem("x")}catch(e){window.__ls={};Object.defineProperty(window,"localStorage",{value:{getItem:k=>k in __ls?__ls[k]:null,setItem:(k,v)=>__ls[k]=String(v),removeItem:k=>delete __ls[k]},configurable:true})}
+const $=s=>document.querySelector(s),LS=(k,v)=>v===undefined?JSON.parse(localStorage.getItem('q369_'+k)||'null'):localStorage.setItem('q369_'+k,JSON.stringify(v));
+let AC;const ac=()=>AC||(AC=new (window.AudioContext||window.webkitAudioContext)());
+const master=()=>{ac();if(!AC.m){AC.m=AC.createGain();AC.an=AC.createAnalyser();AC.m.connect(AC.an);AC.an.connect(AC.destination)}return AC.m};
+function tone(f,d=.3,type='sine',v=.25,t0=0){const c=ac(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(master());o.start(t);o.stop(t+d+.05)}
+function noise(d=.1,v=.3,hp=0){const c=ac(),b=c.createBuffer(1,c.sampleRate*d,c.sampleRate),x=b.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*(1-i/x.length);const s=c.createBufferSource(),g=c.createGain(),f=c.createBiquadFilter();f.type='highpass';f.frequency.value=hp;s.buffer=b;g.gain.value=v;s.connect(f);f.connect(g);g.connect(master());s.start()}
+const say=t=>{log('🗣 '+NAME+': '+t);try{const u=new SpeechSynthesisUtterance(t);u.onstart=()=>$('#ring')&&$('#ring').classList.add('talk');u.onend=()=>$('#ring')&&$('#ring').classList.remove('talk');speechSynthesis.speak(u)}catch(e){}};
+const log=t=>{const l=$('#log');if(l){l.innerHTML+='<div>'+t+'</div>';l.scrollTop=1e9}};
+let NAME=LS('name')||'Mother Eve',BPM=LS('bpm')||120,playing=false;
+const W={};const win=(id,title,html,init)=>W[id]={title,html,init};
+function moon(d=new Date()){const p=((d-new Date('2000-01-06T18:14Z'))/864e5%29.530588+29.53)%29.53;const n=['🌑 New','🌒 Waxing Crescent','🌓 First Quarter','🌔 Waxing Gibbous','🌕 Full','🌖 Waning Gibbous','🌗 Last Quarter','🌘 Waning Crescent'][Math.floor((p/29.53)*8+.5)%8];return{p,n}}
+const SIGNS=[['Capricorn',20,'Earth'],['Aquarius',19,'Air'],['Pisces',20,'Water'],['Aries',20,'Fire'],['Taurus',21,'Earth'],['Gemini',21,'Air'],['Cancer',22,'Water'],['Leo',23,'Fire'],['Virgo',23,'Earth'],['Libra',23,'Air'],['Scorpio',22,'Water'],['Sagittarius',22,'Fire'],['Capricorn',99,'Earth']];
+const sign=d=>{const m=d.getMonth(),day=d.getDate();return day<SIGNS[m][1]?SIGNS[m]:SIGNS[m+1]};
+const lifePath=s=>{let n=s.replace(/\D/g,'').split('').reduce((a,b)=>a+ +b,0);while(n>9&&![11,22,33].includes(n))n=String(n).split('').reduce((a,b)=>a+ +b,0);return n};
+
+win('deck','🛸 Command Deck',`<h2>Command Deck</h2><div class=panel><canvas id=deckc width=900 height=260></canvas></div>
+<div class=grid><div class=tile>Tempo<br><input id=bpm type=range min=60 max=180><b id=bpmv></b></div><div class=tile>Moon<br><b id=dmoon></b></div><div class=tile>Sun sign<br><b id=dsun></b></div><div class=tile>3-6-9 Day<br><b id=d369></b></div><div class=tile>Master<br><button class=k onclick=togglePlay()>▶ / ■</button></div></div>`,()=>{
+$('#bpm').value=BPM;$('#bpmv').textContent=BPM;$('#bpm').oninput=e=>{BPM=+e.target.value;LS('bpm',BPM);$('#bpmv').textContent=BPM};
+const d=new Date();$('#dmoon').textContent=moon().n;$('#dsun').textContent=sign(d)[0];const r=lifePath(d.toISOString().slice(0,10));$('#d369').textContent=r+([3,6,9].includes(r)?' ✦ power day':'');
+const c=$('#deckc'),x=c.getContext('2d');(function f(){if(!c.isConnected)return;const t=Date.now()/1000,s=getComputedStyle(document.body).getPropertyValue('--a');x.clearRect(0,0,900,260);x.strokeStyle=s;for(let i=0;i<6;i++){x.beginPath();x.arc(450,130,40+i*18,t*(i%2?1:-1)*.5+i,t*(i%2?1:-1)*.5+i+4);x.stroke()}
+for(let i=0;i<7;i++){x.beginPath();x.arc(450+(i?50*Math.cos(i*Math.PI/3):0),130+(i?50*Math.sin(i*Math.PI/3):0),50,0,7);x.stroke()}
+if(AC&&AC.an){const a=new Uint8Array(64);AC.an.getByteFrequencyData(a);a.forEach((v,i)=>{x.fillStyle=s;x.fillRect(20+i*6,240-v/3,4,v/3);x.fillRect(880-i*6,240-v/3,4,v/3)})}requestAnimationFrame(f)})()});
+
+win('eve','🧬 Mother Eve / Big Tony',`<h2>Assistant</h2><div class=panel style="display:flex;gap:16px"><div style="width:140px;text-align:center"><div id=ring></div><p id=evname></p><button class=k id=mic>🎙 Talk</button><label class=small><input type=checkbox id=wake> Wake word</label></div>
+<div style=flex:1><div id=log class=panel></div><input id=q style=width:70% placeholder="Type: open live session, set tempo 96, switch to ocean, what's the moon"><button class=k id=send>Send</button></div></div>
+<div class=panel>Name <input id=nm><button class=k id=svn>Save</button> AI Brain (optional): <input id=ollama placeholder="Ollama model e.g. llama3" size=14> <span class=small>Built-in commands work offline.</span></div>`,()=>{
+$('#evname').textContent=NAME;$('#nm').value=NAME;$('#ollama').value=LS('ollama')||'';$('#svn').onclick=()=>{NAME=$('#nm').value||'Mother Eve';LS('name',NAME);LS('ollama',$('#ollama').value);$('#evname').textContent=NAME};
+const go=()=>{const v=$('#q').value;$('#q').value='';cmd(v)};$('#send').onclick=go;$('#q').onkeydown=e=>e.key=='Enter'&&go();
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('#mic').disabled=true;$('#mic').title='Voice needs Chrome or Edge';return}
+const r=new SR();r.continuous=true;r.onresult=e=>{let t=e.results[e.results.length-1][0].transcript.trim();const w=new RegExp('^(hey tony|jarvis|mother eve|'+NAME.toLowerCase()+')[, ]*','i');if($('#wake').checked&&!w.test(t))return;cmd(t.replace(w,''))};
+let on=false;$('#mic').onclick=()=>{on=!on;on?r.start():r.stop();$('#mic').textContent=on?'■ Stop':'🎙 Talk'};r.onend=()=>on&&r.start()});
+async function cmd(t){if(!t)return;log('🧑 '+t);const s=t.toLowerCase();let m;
+if(m=s.match(/tempo (\d+)/)){BPM=+m[1];LS('bpm',BPM);return say('Tempo set to '+BPM)}
+if(m=s.match(/(gold|violet|ocean)/)&&/switch|go|theme/.test(s)){setTheme(m[1]=='gold'?'':m[1]);return say('Switched to '+m[1])}
+if(/moon/.test(s))return say('Today the moon is '+moon().n.slice(3)+', and the sun is in '+sign(new Date())[0]);
+if(/lucy/.test(s)){open('lucy');return say('Lucy Mode ready. Press start for your 3-6-9 session.')}
+if(/^(play|start)$/.test(s)||/play beat/.test(s)){if(!playing)togglePlay();return say('Playing')}
+if(/stop/.test(s)){if(playing)togglePlay();return say('Stopped')}
+if(m=s.match(/open (.+)/)){const k=Object.keys(W).find(k=>W[k].title.toLowerCase().includes(m[1].trim().split(' ')[0]));if(k){open(k);return say('Opening '+W[k].title.replace(/^\S+ /,''))}}
+if(/time/.test(s))return say('It is '+new Date().toLocaleTimeString());
+const mod=LS('ollama');if(mod){try{const r=await fetch('http://localhost:11434/api/generate',{method:'POST',body:JSON.stringify({model:mod,prompt:'You are '+NAME+', the 369 DAW assistant. '+t,stream:false})});return say((await r.json()).response)}catch(e){}}
+say('I know: open a window, set tempo, switch theme, play, stop, moon, time, Lucy Mode. Connect Ollama for full conversation.')}
+
+const TR=['Kick','Snare','Hat','Clap','Bass','Lead','Pad','Bell'];let SEQ=LS('seq')||TR.map((_,i)=>Array(16).fill(0).map((_,j)=>i==0&&j%4==0||i==2&&j%2==0?1:0)),step=0,timer;
+const NOTES=[55,65.4,73.4,82.4,98,110,130.8,146.8];
+function hit(i,j){if(i==0){const c=ac(),o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(150,c.currentTime);o.frequency.exponentialRampToValueAtTime(40,c.currentTime+.3);g.gain.setValueAtTime(.8,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.35);o.connect(g);g.connect(master());o.start();o.stop(c.currentTime+.4)}
+else if(i==1)noise(.18,.4,800);else if(i==2)noise(.05,.2,7000);else if(i==3)noise(.12,.35,1500);else if(i==4)tone(NOTES[j%8],.25,'sawtooth',.2);else if(i==5)tone(NOTES[(j*3)%8]*4,.2,'square',.1);else if(i==6)tone(NOTES[j%4]*2,.8,'triangle',.08);else tone(NOTES[(j*5)%8]*8,.6,'sine',.1)}
+function togglePlay(){playing=!playing;clearTimeout(timer);if(playing)(function t(){SEQ.forEach((r,i)=>r[step]&&hit(i,step));document.querySelectorAll('.cell').forEach(c=>c.classList.toggle('now',+c.dataset.j==step));step=(step+1)%16;timer=setTimeout(t,60000/BPM/4)})()}
+win('forge','🎚 Sound Forge',`<h2>Sound Forge — 8-track step sequencer</h2><div class=panel><button class=k onclick=togglePlay()>▶ Play / ■ Stop</button><button class=k id=clr>Clear</button><button class=k id=rnd>369 Random</button> <span id=midi class=small></span><div class=seq id=seq style=margin-top:8px></div></div>
+<div class=panel><b>Cymatics Mirror</b><br><canvas id=cym width=420 height=220></canvas></div>`,()=>{
+const g=$('#seq');g.innerHTML=TR.map((n,i)=>'<div>'+n+'</div>'+SEQ[i].map((v,j)=>`<div class="cell ${v?'on':''}" data-i=${i} data-j=${j}></div>`).join('')).join('');
+g.onclick=e=>{const c=e.target;if(!c.dataset.i)return;const i=+c.dataset.i,j=+c.dataset.j;SEQ[i][j]^=1;c.classList.toggle('on');LS('seq',SEQ);if(SEQ[i][j])hit(i,j)};
+$('#clr').onclick=()=>{SEQ=SEQ.map(r=>r.fill(0));LS('seq',SEQ);open('forge')};$('#rnd').onclick=()=>{SEQ=SEQ.map((r,i)=>r.map((_,j)=>(j*(i+3))%9%3==0&&Math.random()<.6?1:0));LS('seq',SEQ);open('forge')};
+if(navigator.requestMIDIAccess)navigator.requestMIDIAccess().then(m=>{$('#midi').textContent='MIDI: '+m.inputs.size+' input(s)';m.inputs.forEach(i=>i.onmidimessage=e=>{if((e.data[0]&240)==144&&e.data[2])tone(440*Math.pow(2,(e.data[1]-69)/12),.5,'triangle',e.data[2]/400)})}).catch(()=>{});
+const c=$('#cym'),x=c.getContext('2d');(function f(){if(!c.isConnected)return;let e=.2;if(AC&&AC.an){const a=new Uint8Array(32);AC.an.getByteFrequencyData(a);e=a.reduce((p,v)=>p+v,0)/8000+.1}x.fillStyle='#0003';x.fillRect(0,0,420,220);x.fillStyle=getComputedStyle(document.body).getPropertyValue('--a');const n=2+Math.round(e*8),mm=3+Math.round(e*5);for(let k=0;k<1500;k++){const u=Math.random(),v=Math.random(),z=Math.cos(n*Math.PI*u)*Math.cos(mm*Math.PI*v)-Math.cos(mm*Math.PI*u)*Math.cos(n*Math.PI*v);if(Math.abs(z)<.05)x.fillRect(u*420,v*220,1.5,1.5)}requestAnimationFrame(f)})()});
+
+const GENRES='Hip-Hop,Trap,Drill,Boom Bap,Lo-Fi,R&B,Neo-Soul,Soul,Funk,Disco,House,Deep House,Techno,Trance,Drum & Bass,Dubstep,UK Garage,Grime,Jungle,Breakbeat,Ambient,Synthwave,Vaporwave,Pop,K-Pop,J-Pop,Rock,Punk,Metal,Grunge,Indie,Shoegaze,Blues,Jazz,Bebop,Swing,Gospel,Country,Bluegrass,Folk,Reggae,Dancehall,Dub,Ska,Afrobeats,Amapiano,Highlife,Gqom,Kwaito,Soca,Calypso,Salsa,Bachata,Cumbia,Reggaeton,Bossa Nova,Samba,Baile Funk,Tango,Flamenco,Fado,Classical,Baroque,Opera,Cinematic,Gamelan,Qawwali,Bhangra,Carnatic,Hindustani,Gnawa,Rai,Tuvan Throat Singing,Enka,Polka,Klezmer,Zydeco,Go-Go,Chopped & Screwed,Phonk,Hyperpop,Footwork,Jersey Club,Bounce,Crunk,G-Funk,Industrial,Noise,Drone,Musique Concrète,Chiptune,New Age'.split(',');
+const INSTR='Piano,Organ,Harpsichord,Guitar,Bass,Violin,Viola,Cello,Double Bass,Harp,Flute,Piccolo,Clarinet,Oboe,Bassoon,Saxophone,Trumpet,Trombone,French Horn,Tuba,Drum Kit,Timpani,Marimba,Vibraphone,Xylophone,Celesta,Synthesizer,808,Theremin,Ondes Martenot,Kalimba,Mbira,Kora,Djembe,Talking Drum,Balafon,Udu,Shekere,Sitar,Tabla,Sarod,Veena,Bansuri,Shehnai,Erhu,Guzheng,Pipa,Shakuhachi,Koto,Shamisen,Taiko,Oud,Qanun,Ney,Darbuka,Duduk,Bouzouki,Balalaika,Bagpipes,Hurdy-Gurdy,Accordion,Bandoneon,Harmonica,Didgeridoo,Steelpan,Berimbau,Cuíca,Charango,Pan Flute,Cajón,Handpan,Waterphone,Glass Harmonica,Crystal Bowl,Tibetan Bowl,Jaw Harp,Washboard,Musical Saw,Mellotron,Omnichord,Laser Harp'.split(',');
+const UNIQUE=[['Strings Fusion','sawtooth',[1,2.01,3]],['Wind Spirit','sine',[1,2,3.99]],['Earth Drums','triangle',[1,1.5]],['Crystal Bells','sine',[1,2.76,5.4]],['Cosmic Keys','square',[1,2,4]],['Voice of 369','triangle',[1,3,6,9]]];
+const PLUG=['Vortex Delay','Torus Reverb','Tesla Drive','Golden Filter','Merkaba Shimmer','Flower Chorus','Cymatic Sub','Quantum Crusher','Halo Octave'];
+win('lib','🎻 Genres & 369 Instruments',`<h2>Genre & Instrument Library</h2><div class=panel><input id=ls placeholder="Search ${GENRES.length} genres + ${INSTR.length} instruments" style=width:60%><div id=lr class=grid style=margin-top:8px></div></div>
+<div class=panel><b>369 Unique Instruments (6 groups)</b> <select id=ui>${UNIQUE.map((u,i)=>`<option value=${i}>${u[0]}</option>`)}</select><div id=keys></div></div>
+<div class=panel><b>9 Unique Plugins</b> (knob = amount, applied to the instrument above)<div class=grid id=pl>${PLUG.map((p,i)=>`<div class=tile>${p}<br><input type=range min=0 max=100 value=0></div>`).join('')}</div></div>`,()=>{
+const show=q=>$('#lr').innerHTML=[...GENRES.map(g=>'🎼 '+g),...INSTR.map(g=>'🎻 '+g)].filter(a=>a.toLowerCase().includes(q)).slice(0,60).map(a=>`<div class=tile>${a}</div>`).join('');show('');$('#ls').oninput=e=>show(e.target.value.toLowerCase());
+const sc=[0,2,4,5,7,9,11,12,14,16,17,19,21,23];$('#keys').innerHTML=sc.map((s,i)=>`<button class=k data-n=${s}>${'CDEFGAB'[i%7]}${i>6?5:4}</button>`).join('');
+$('#keys').onclick=e=>{const n=e.target.dataset.n;if(n===undefined)return;const u=UNIQUE[$('#ui').value],f=261.6*Math.pow(2,n/12),m=[...document.querySelectorAll('#pl input')].map(i=>+i.value/100);
+u[2].forEach((h,k)=>tone(f*h*(m[3]?1:1),.9+m[1]*2,u[1],.12/(k+1)));if(m[0])[1,2,3].forEach(r=>tone(f,.4,u[1],.08*m[0]/r,r*.25));if(m[2])tone(f/2,.5,'square',.08*m[2]);if(m[4])tone(f*2,1.5,'sine',.05*m[4],.05);if(m[5])tone(f*1.007,.9,u[1],.08*m[5]);if(m[6])tone(f/4,.8,'sine',.15*m[6]);if(m[7])tone(f*8,.15,'square',.03*m[7]);if(m[8])tone(f/2,.9,'triangle',.08*m[8])}});
+
+let RBUF,RSRC=[];const STY={Trap:[1.0,8000],House:[1.05,12000],'Lo-Fi':[.85,2500],'Drum & Bass':[1.4,14000],Reggae:[.9,6000],Ambient:[.75,1800],Afrobeats:[1.0,9000],Phonk:[.95,5000],Jazz:[.9,7000]};
+win('remix','🔁 Remix Engine',`<h2>Remix Engine</h2><div class=panel>1. Load a song <input type=file id=rf accept="audio/*"> <span id=rinfo class=small></span></div>
+<div class=panel>2. Blend up to 3 styles:<div id=rs>${Object.keys(STY).map(s=>`<label class=tile style="display:inline-block;margin:3px"><input type=checkbox value="${s}"> ${s}</label>`).join('')}</div>
+3. Versions (max 3): <select id=rv><option>1</option><option>2</option><option selected>3</option></select> <button class=k id=rg>⚡ Generate</button></div><div id=rout class=grid></div>`,()=>{
+$('#rf').onchange=async e=>{const f=e.target.files[0];if(!f)return;RBUF=await ac().decodeAudioData(await f.arrayBuffer());$('#rinfo').textContent=f.name+' loaded'};
+$('#rs').onchange=()=>{const c=[...document.querySelectorAll('#rs input:checked')];if(c.length>3){c[3].checked=false;alert('Limit: 3 styles per remix')}};
+const sel=()=>[...document.querySelectorAll('#rs input:checked')].map(i=>i.value);
+$('#rg').onclick=()=>{const st=sel();if(!st.length)return alert('Pick a style');$('#rout').innerHTML=Array.from({length:+$('#rv').value},(_,v)=>{const r=st.reduce((a,s)=>a+STY[s][0],0)/st.length*(1+(v-1)*.04);return`<div class=tile><b>Version ${v+1}</b><br>${st.join(' + ')}<br>×${r.toFixed(2)}<br><button class=k data-v=${v} data-r=${r}>▶</button><button class=k data-x=1>■</button></div>`}).join('')};
+$('#rout').onclick=e=>{const b=e.target;if(b.dataset.x){RSRC.forEach(s=>{try{s.stop()}catch(_){}});return}if(!b.dataset.r)return;const st=sel(),c=ac(),r=+b.dataset.r,f=c.createBiquadFilter();f.frequency.value=Math.min(...st.map(s=>STY[s][1]))*(1+b.dataset.v*.2);f.connect(master());
+if(RBUF){const s=c.createBufferSource();s.buffer=RBUF;s.playbackRate.value=r;s.connect(f);s.start();RSRC.push(s)}const bt=30/(BPM*r);for(let k=0;k<32;k++){if(k%4==0)setTimeout(()=>hit(0,0),k*bt*1000);if(k%8==4)setTimeout(()=>hit(1,0),k*bt*1000);if(!st.includes('Ambient'))setTimeout(()=>hit(2,0),k*bt*1000)}}});
+const AGENTS=['Big Tony','Mother Eve','Code Forge','Beat Maker','Lyric Writer','Mix Engineer','Mastering','Video Director','Image Artist','PDF Writer','App Builder','Wealth Coach','Cosmic Guide','Geometry Lab','Lucy Coach','Phone Shield','Remix Engine','Healing Guide'];
+win('pool','💧 369 Creation Pool',`<h2>369 Creation Pool</h2><div class=panel><canvas id=poolc width=900 height=420></canvas><p class=small>Tap an agent orb to send it a task.</p></div>`,()=>{
+const c=$('#poolc'),x=c.getContext('2d'),P=AGENTS.map((a,i)=>({a,x:90+(i%6)*145,y:80+Math.floor(i/6)*130}));c.onclick=e=>{const r=c.getBoundingClientRect(),mx=(e.clientX-r.left)*900/r.width,my=(e.clientY-r.top)*420/r.height,p=P.find(p=>Math.hypot(p.x-mx,p.y-my)<45);if(p){open('eve');$('#q').value=p.a+': '}};
+(function f(){if(!c.isConnected)return;const t=Date.now()/900,s=getComputedStyle(document.body).getPropertyValue('--a');x.clearRect(0,0,900,420);x.strokeStyle=s;x.globalAlpha=.25;for(let w=0;w<9;w++){x.beginPath();for(let i=0;i<=900;i+=10)x.lineTo(i,130+Math.sin(i/60+t+w)*30+w*20);x.stroke()}x.globalAlpha=1;
+P.forEach((p,i)=>{const y=p.y+Math.sin(t+i)*6;x.beginPath();x.arc(p.x,y,40,0,7);x.fillStyle='#0009';x.fill();x.stroke();x.fillStyle=s;x.font='12px system-ui';x.textAlign='center';x.fillText(p.a,p.x,y+4)});requestAnimationFrame(f)})()});
+
+const PROV=[['OpenAI','https://api.openai.com/v1/chat/completions','gpt-4o-mini'],['Anthropic Claude','https://api.anthropic.com/v1/messages','claude-3-5-sonnet-latest'],['Google Gemini','https://generativelanguage.googleapis.com','gemini-1.5-flash'],['Groq','https://api.groq.com/openai/v1/chat/completions','llama-3.1-8b-instant'],['Mistral','https://api.mistral.ai/v1/chat/completions','mistral-small-latest'],['DeepSeek','https://api.deepseek.com/chat/completions','deepseek-chat'],['xAI Grok','https://api.x.ai/v1/chat/completions','grok-2'],['OpenRouter','https://openrouter.ai/api/v1/chat/completions','openrouter/auto'],['Perplexity','https://api.perplexity.ai/chat/completions','sonar'],['Ollama (free local)','http://localhost:11434/v1/chat/completions','llama3']];
+const SKILLS={Music:['Write a hook in {genre} about {topic}','16-bar arrangement map at {bpm} BPM'],Code:['Build a single-file HTML app that {idea}; output full code','Find and fix bugs in this code'],Business:['1-page business plan for {idea} with 30-day launch','Turn this into 9 social posts'],Learning:['Teach me {skill} in 30 days with daily drills','Quiz me on {topic}, adapt difficulty'],Creative:['Image prompt: subject, style, light, lens, palette','30s video ad shot list']};
+async function askAI(p,q){const k=(LS('keys')||{})[p[0]]||'';
+if(/Anthropic/.test(p[0])){const r=await fetch(p[1],{method:'POST',headers:{'x-api-key':k,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:p[2],max_tokens:800,messages:[{role:'user',content:q}]})});return(await r.json()).content[0].text}
+if(/Gemini/.test(p[0])){const r=await fetch(`${p[1]}/v1beta/models/${p[2]}:generateContent?key=${k}`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:q}]}]})});return(await r.json()).candidates[0].content.parts[0].text}
+const r=await fetch(p[1],{method:'POST',headers:{'content-type':'application/json',...(k?{Authorization:'Bearer '+k}:{})},body:JSON.stringify({model:p[2],messages:[{role:'user',content:q}]})});return(await r.json()).choices[0].message.content}
+async function checkUpd(){try{const r=await fetch('https://api.github.com/repos/delleto2023-eng/369-Quantum-Gold-DAW/releases/latest');const j=await r.json();const el=$('#upd');if(el)el.innerHTML=j.tag_name?(j.tag_name>'v3.0'?`New ${j.tag_name} available <a href="${j.html_url}" target=_blank>Install</a>`:'Up to date ('+j.tag_name+')'):'No releases yet'}catch(e){$('#upd')&&($('#upd').textContent='Offline')}}
+setInterval(()=>LS('auto')!==false&&checkUpd(),36e5);
+win('agents','🤖 AI Agents Hub',`<h2>AI Agents Hub</h2><div class=panel><b>🔑 Keys folder</b> <span class=small>Stays on this device. Export/import keys/api-keys.json</span><div class=grid id=kg></div><button class=k id=ksv>Save</button><button class=k id=kex>Export</button><input type=file id=kim accept=.json></div>
+<div class=panel><b>⚡ Ask</b> <select id=ap>${PROV.map((p,i)=>`<option value=${i}>${p[0]}</option>`)}</select><label><input type=checkbox id=all> Ask all with keys & compare</label><br><textarea id=apr rows=3 style=width:90%></textarea><br><button class=k id=ago>Send</button><div id=aout></div></div>
+<div class=panel><b>🧠 Skill paths & pro prompts</b><div id=sk class=grid></div></div><div class=panel><b>🔄 Auto-upgrade</b> <span id=upd>Checking…</span> <label><input type=checkbox id=auto> hourly</label></div>`,()=>{
+const K=LS('keys')||{};$('#kg').innerHTML=PROV.map(p=>`<div class=tile>${p[0]}<br><input type=password data-k="${p[0]}" value="${K[p[0]]||''}" style=width:95%></div>`).join('');
+const save=()=>{const o={};document.querySelectorAll('#kg input').forEach(i=>i.value&&(o[i.dataset.k]=i.value));LS('keys',o);return o};$('#ksv').onclick=()=>{save();alert('Saved')};
+$('#kex').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(save(),null,2)]));a.download='api-keys.json';a.click()};
+$('#kim').onchange=async e=>{LS('keys',JSON.parse(await e.target.files[0].text()));open('agents')};
+$('#sk').innerHTML=Object.entries(SKILLS).map(([k,v])=>`<div class=tile><b>${k}</b>${v.map(p=>`<br><button class=k data-p="${p}">Use</button> ${p}`).join('')}</div>`).join('');$('#sk').onclick=e=>e.target.dataset.p&&($('#apr').value=e.target.dataset.p);
+$('#auto').checked=LS('auto')!==false;$('#auto').onchange=e=>LS('auto',e.target.checked);checkUpd();
+$('#ago').onclick=async()=>{const q=$('#apr').value,ks=LS('keys')||{},list=$('#all').checked?PROV.filter(p=>ks[p[0]]||/Ollama/.test(p[0])):[PROV[$('#ap').value]];$('#aout').innerHTML='';
+for(const p of list){const d=document.createElement('div');d.className='tile';d.innerHTML='<b>'+p[0]+'</b><br>…';$('#aout').append(d);askAI(p,q).then(t=>d.innerHTML='<b>'+p[0]+'</b><br>'+t.replace(/</g,'&lt;').replace(/\n/g,'<br>')).catch(e=>d.innerHTML='<b>'+p[0]+'</b><br>Error: check key ('+e.message+')')}}});
+
+const SH=[['Dot',1],['Line',2],['Triangle',3],['Square',4],['Pentagon',5],['Hexagon',6],['Heptagon',7],['Octagon',8],['Nonagon',9],['Decagon',10],['Dodecagon',12]];let gt;
+win('geo','🔺 Geometry & Tesla Lab',`<h2>Geometry & Tesla Lab</h2><div class=panel><canvas id=gc width=420 height=300></canvas><div id=gs></div></div>
+<div class=panel><b>Shape Sequencer</b> (each shape = beats per bar) <span id=gsel></span><br><button class=k id=gp>▶ Play polyrhythm</button><button class=k id=gx>■</button><button class=k id=gclr>Clear</button></div>
+<div class=panel><b>Vortex math</b>: 1 → 2 → 4 → 8 → 7 → 5 → 1 (axis 3-6-9)<br><b>Number-to-Melody</b> <input id=nm2 placeholder="date, name or 369"><button class=k id=nmp>▶</button></div>`,()=>{
+let pick=[3,4];const c=$('#gc'),x=c.getContext('2d'),draw=n=>{const s=getComputedStyle(document.body).getPropertyValue('--a');x.clearRect(0,0,420,300);x.strokeStyle=s;x.lineWidth=3;x.beginPath();if(n==1){x.arc(210,150,6,0,7);x.fillStyle=s;x.fill()}else if(n==2){x.moveTo(110,150);x.lineTo(310,150)}else for(let i=0;i<=n;i++){const a=i/n*Math.PI*2-Math.PI/2;x.lineTo(210+110*Math.cos(a),150+110*Math.sin(a))}x.stroke();x.fillStyle=s;x.font='16px system-ui';x.fillText(n>2?`${n} sides · interior ${(180*(n-2)/n).toFixed(1)}° · root ${n%9||9}`:'',90,290)};
+$('#gs').innerHTML=SH.map(s=>`<button class=k data-n=${s[1]}>${s[0]}</button>`).join('');const upd=()=>$('#gsel').textContent=pick.join(' : ');upd();draw(3);
+$('#gs').onclick=e=>{const n=+e.target.dataset.n;if(!n)return;draw(n);tone(110*n,.5,'triangle',.2);if(n>1&&pick.length<4){pick.push(n);upd()}};$('#gclr').onclick=()=>{pick=[];upd()};
+$('#gp').onclick=()=>{clearInterval(gt);let t=0;const bar=240/BPM*1000;gt=setInterval(()=>{pick.forEach((n,i)=>{if(Math.floor(t*n/48)!=Math.floor((t-1)*n/48))tone(220*(i+1),.12,'square',.12)});t=(t+1)%48},bar/48)};$('#gx').onclick=()=>clearInterval(gt);
+$('#nmp').onclick=()=>{const sc=[0,2,4,5,7,9,11,12,14];[...$('#nm2').value].forEach((ch,i)=>{const d=/\d/.test(ch)?+ch:ch.toLowerCase().charCodeAt(0)%9;tone(261.6*Math.pow(2,sc[d%9]/12),.3,'triangle',.2,i*.25)})}});
+
+win('cosmic','✨ Cosmic Window',`<h2>Cosmic Window</h2><div class=panel style="display:flex;gap:20px;flex-wrap:wrap"><div><b id=cm></b><div id=cal class=grid style="grid-template-columns:repeat(7,44px);gap:3px"></div></div>
+<div><b>World clock</b><div id=wc></div><p>Today: <b id=cmoon></b><br>Sun in <b id=csun></b></p></div></div>
+<div class=panel><b>Birthday reading</b> <input type=date id=bd><button class=k id=bgo>Read + play song</button><div id=bout></div></div>
+<div class=panel><b>3-6-9 manifest journal</b><br><input id=goal placeholder="Your goal" style=width:60%><br><button class=k data-c=3>Morning ×3</button><button class=k data-c=6>Afternoon ×6</button><button class=k data-c=9>Night ×9</button><div id=jo class=small></div></div><p class=small>Astrology is shown as tradition and a creative tool.</p>`,()=>{
+const d=new Date(),y=d.getFullYear(),m=d.getMonth();$('#cm').textContent=d.toLocaleString('default',{month:'long',year:'numeric'});let h='';for(let i=0;i<new Date(y,m,1).getDay();i++)h+='<div></div>';
+for(let i=1;i<=new Date(y,m+1,0).getDate();i++){const dd=new Date(y,m,i,12);h+=`<div class=tile style="padding:3px;text-align:center;${i==d.getDate()?'border-color:var(--a)':''}">${i}<br>${moon(dd).n.split(' ')[0]}</div>`}$('#cal').innerHTML=h;
+const z=[['Local',undefined],['New York','America/New_York'],['London','Europe/London'],['Lagos','Africa/Lagos'],['Tokyo','Asia/Tokyo']];const tk=()=>{if($('#wc'))$('#wc').innerHTML=z.map(a=>a[0]+': '+new Date().toLocaleTimeString([], {timeZone:a[1]})).join('<br>')};tk();setInterval(tk,1000);
+$('#cmoon').textContent=moon().n;$('#csun').textContent=sign(d)[0]+' ('+sign(d)[2]+')';
+$('#bgo').onclick=()=>{const v=$('#bd').value;if(!v)return;const b=new Date(v+'T12:00'),s=sign(b),lp=lifePath(v),el={Fire:[0,4,7],Earth:[0,3,7],Air:[0,4,9],Water:[0,3,8]}[s[2]];
+$('#bout').innerHTML=`Sun sign <b>${s[0]}</b> · element <b>${s[2]}</b> · life path <b>${lp}</b> · moon at birth ${moon(b).n}`;[...el,12,...el.reverse()].forEach((n,i)=>tone(261.6*Math.pow(2,(n+lp)/12),.4,'sine',.2,i*.3))};
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const g=$('#goal').value;if(!g)return;const j=LS('journal')||[];j.push(new Date().toLocaleString()+' ×'+b.dataset.c+': '+g);LS('journal',j);$('#jo').innerHTML=j.slice(-6).join('<br>')});$('#jo').innerHTML=(LS('journal')||[]).slice(-6).join('<br>')});
+
+let BIN=[];const stopBin=()=>{BIN.forEach(o=>{try{o.stop()}catch(e){}});BIN=[]};
+win('mind','🧠 Mind & Healing',`<h2>Mind & Healing</h2><div class=panel><b>Binaural beats</b> (use headphones, low volume, 10–30 min)<br>Carrier <input id=bc type=number value=200> Hz Beat <input id=bb type=number value=10> Hz
+<br>${[['Focus · beta',200,18],['Calm · alpha',200,10],['Meditate · theta',180,6],['Sleep · delta',150,2],['Insight · gamma',220,40]].map(p=>`<button class=k data-c=${p[1]} data-b=${p[2]}>${p[0]}</button>`).join('')}<button class=k id=bst>▶ Start</button><button class=k id=bsp>■ Stop</button>
+<br>Tones: ${[174,285,369,396,417,432,528,639,741,852,963].map(f=>`<button class=k data-t=${f}>${f}</button>`).join('')}</div>
+<div class=grid><div class=tile><b>✋ Mudras</b><br>Gyan: thumb+index, calm focus. Prana: thumb+ring+little, energy. Apana: thumb+middle+ring, release. Mantra: "Om", "Sa Ta Na Ma".</div>
+<div class=tile><b>📍 Pressure points</b><br>LI4 (hand web): headache/stress. PC6 (3 fingers above wrist): nausea/calm. Yintang (between brows): sleep. GV20 (crown): focus. Press 1–2 min.</div>
+<div class=tile><b>💛 Influence with love</b><br>Spot manipulation: guilt-tripping, gaslighting, love-bombing, false urgency, isolation. Block: pause, name it, set a boundary. Use positive influence: listen, mirror, give value first.</div>
+<div class=tile><b>𓂀 Library</b><br>Kemetic healing & Ma'at, temple sound, Hermetic principles, MKUltra and Gateway as history only.</div></div><p class=small>Wellness and relaxation only, not medical treatment.</p>`,()=>{
+document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{$('#bc').value=b.dataset.c;$('#bb').value=b.dataset.b});
+$('#bst').onclick=()=>{stopBin();const c=ac(),f=+$('#bc').value,bt=+$('#bb').value;[[f,-1],[f+bt,1]].forEach(([fr,p])=>{const o=c.createOscillator(),g=c.createGain(),pn=c.createStereoPanner();o.frequency.value=fr;g.gain.value=.12;pn.pan.value=p;o.connect(g);g.connect(pn);pn.connect(master());o.start();BIN.push(o)})};$('#bsp').onclick=stopBin;
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>tone(+b.dataset.t,4,'sine',.15))});
+
+let LT;const LP=()=>LS('lucy')||{sessions:0,ear:[],rhythm:[],memory:[]};
+win('lucy','🧬 Lucy Mode',`<h2>Lucy Mode — Human Upgrade Lab</h2><div class=panel><b>3-6-9 session</b>: 3 min breath · 6 min focus tone · 9 min drill <button class=k id=ls1>Start</button> <b id=lt style=font-size:24px></b></div>
+<div class=grid><div class=tile><b>👂 Ear training</b><br><button class=k id=e1>Play interval</button><div id=eopts></div><span id=er></span></div>
+<div class=tile><b>🥁 Rhythm</b><br>Tap 8 times with the click <button class=k id=r1>Start</button><button class=k id=rt>TAP</button><span id=rr></span></div>
+<div class=tile><b>🔢 Memory</b><br><button class=k id=m1>Show digits</button><b id=md></b><br><input id=mi size=10><button class=k id=mc>Check</button><span id=mr></span></div>
+<div class=tile><b>📈 Progress</b><div id=pd></div></div></div>
+<div class=panel class=small>Lore: the "10% of the brain" idea from the movie is a myth; we use all of it. CIA Gateway memo (1983) and Project Stargate (1972–1995) are taught as history; Stargate was closed after it was judged unreliable.</div>`,()=>{
+const P=LP(),save=()=>{LS('lucy',P);const av=a=>a.length?Math.round(a.slice(-10).reduce((x,y)=>x+y,0)/Math.min(10,a.length)):'-';$('#pd').innerHTML=`Sessions ${P.sessions}<br>Ear ${av(P.ear)}%<br>Rhythm ${av(P.rhythm)}%<br>Memory ${av(P.memory)} digits`};save();
+$('#ls1').onclick=()=>{clearInterval(LT);let s=18*60;P.sessions++;save();LT=setInterval(()=>{s--;const ph=s>15*60?'Breathe':s>9*60?'Focus':'Drill';$('#lt').textContent=ph+' '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0');if(s==15*60||s==9*60)tone(528,1);if(s<=0){clearInterval(LT);say('Session complete')}},1000)};
+const IV=[['m2',1],['M2',2],['m3',3],['M3',4],['P4',5],['P5',7],['M6',9],['Oct',12]];let cur;$('#eopts').innerHTML=IV.map(i=>`<button class=k data-i=${i[1]}>${i[0]}</button>`).join('');
+$('#e1').onclick=()=>{cur=IV[Math.floor(Math.random()*8)][1];tone(261.6,.6);tone(261.6*Math.pow(2,cur/12),.6,'sine',.25,.7)};$('#eopts').onclick=e=>{if(!e.target.dataset.i||cur==null)return;const ok=+e.target.dataset.i==cur;P.ear.push(ok?100:0);$('#er').textContent=ok?'✅':'❌';save();cur=null};
+let st,taps=[];$('#r1').onclick=()=>{taps=[];st=performance.now()+60000/BPM;for(let i=0;i<9;i++)tone(1000,.05,'square',.2,i*60/BPM)};$('#rt').onclick=()=>{if(!st)return;taps.push(performance.now());if(taps.length==8){const b=60000/BPM,err=taps.map((t,i)=>Math.abs(t-(st+i*b))).reduce((a,c)=>a+c,0)/8,sc=Math.max(0,Math.round(100-err/3));P.rhythm.push(sc);$('#rr').textContent=sc+'%';save();st=0}};
+let dg='',len=5;$('#m1').onclick=()=>{dg=Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');$('#md').textContent=dg;setTimeout(()=>$('#md').textContent='?',len*700)};$('#mc').onclick=()=>{const ok=$('#mi').value==dg;$('#mr').textContent=ok?'✅':'❌ '+dg;if(ok){P.memory.push(len);len++}else len=Math.max(4,len-1);$('#mi').value='';save()}});
+
+win('wealth','💰 Wealth Builder',`<h2>369 Wealth Builder</h2><div class=panel>Goal <input id=wn placeholder=name> $<input id=wa type=number size=8> by <input id=wd type=date> saved $<input id=ws type=number size=8 value=0><button class=k id=wadd>Add</button></div><div id=wl class=grid></div>
+<div class=panel><b>Checklist</b><div id=wc2></div></div>`,()=>{const G=LS('goals')||[],CK=LS('ck')||{},items=['Register LLC','Get EIN','Open business bank account','Build business credit (D-U-N-S)','Set up 369 product store','Automate savings 10%','Trust / will for family','Invest monthly (index funds)','9-month emergency fund'];
+const draw=()=>{$('#wl').innerHTML=G.map((g,i)=>{const days=Math.max(1,Math.ceil((new Date(g.d)-new Date())/864e5)),left=g.a-g.s;return`<div class=tile><b>${g.n}</b><br>$${g.s} / $${g.a} (${Math.round(g.s/g.a*100)}%)<br>${days} days → <b>$${(left/days).toFixed(2)}/day</b> · $${(left/days*7).toFixed(0)}/wk<br><button class=k data-a=${i}>+ deposit</button><button class=k data-del=${i}>✕</button></div>`}).join('');LS('goals',G)};draw();
+$('#wadd').onclick=()=>{if(!$('#wa').value||!$('#wd').value)return;G.push({n:$('#wn').value||'Goal',a:+$('#wa').value,d:$('#wd').value,s:+$('#ws').value});draw()};
+$('#wl').onclick=e=>{const a=e.target.dataset.a,d=e.target.dataset.del;if(a){const v=+prompt('Amount');if(v){G[a].s+=v;draw()}}if(d){G.splice(d,1);draw()}};
+$('#wc2').innerHTML=items.map(t=>`<label style=display:block><input type=checkbox ${CK[t]?'checked':''} data-t="${t}"> ${t}</label>`).join('');$('#wc2').onchange=e=>{CK[e.target.dataset.t]=e.target.checked;LS('ck',CK)}});
+
+const SPAM=[/^\+?1?(800|888|877|866|855|844|833)/,/^\+?(234|233|880|92)\d/,/^(\d)\1{6,}/];
+win('phone','📱 369 Phone v3.0',`<h2>369 Phone v3.0</h2><div style="display:flex;gap:20px;flex-wrap:wrap"><div class=phone><div id=ph></div></div>
+<div style=flex:1><div class=panel><b>🛡 Caller ID & spam scan</b><br><input id=pn placeholder="+1 555 123 4567"><button class=k id=pchk>Scan</button><button class=k id=pblk>Block</button><div id=pres></div></div>
+<div class=panel><b>🔒 369 Shield</b><div id=shd></div></div><div class=panel><b>🔄 Update Center</b> <button class=k onclick=checkUpd()>Check now</button> <span class=small>Same updater as the AI Hub.</span></div></div></div>`,()=>{
+const B=LS('block')||[],C=LS('contacts')||[];let pin=LS('pin'),locked=!!pin;
+const home=()=>$('#ph').innerHTML=locked?`<p style=text-align:center>🔒 ${new Date().toLocaleTimeString()}</p><input id=pp type=password placeholder=PIN style=width:90%><button class=k id=pu>Unlock</button>`:
+`<p style="text-align:center;font-size:26px;margin:4px">${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</p><div class=apps>${[['📞','Dialer'],['💬','Messages'],['👥','Contacts'],['📷','Camera'],['🧮','Calc'],['🔦','Light'],['🧭','Compass'],['🔋','Battery'],['📍','Maps'],['🌐','Search'],['🎤','Eve'],['🔒','Set PIN']].map(a=>`<div data-a="${a[1]}"><b>${a[0]}</b>${a[1]}</div>`).join('')}</div><div id=papp style=margin-top:10px></div>`;
+home();$('#ph').onclick=async e=>{if(e.target.id=='pu'){if($('#pp').value==pin){locked=false;home()}return}const a=e.target.closest('[data-a]');if(!a)return;const n=a.dataset.a,o=$('#papp');
+if(n=='Dialer')o.innerHTML='<input id=dn style=width:70%><br><button class=k onclick="location.href=\'tel:\'+$(\'#dn\').value">📞 Call</button><button class=k onclick="location.href=\'sms:\'+$(\'#dn\').value">💬 Text</button>';
+if(n=='Messages')o.innerHTML='Texts open in your phone\'s messages app (browsers can\'t read SMS).';if(n=='Contacts')o.innerHTML=C.map(c=>`<div>${c}</div>`).join('')+'<input id=cn placeholder="Name 555..."><button class=k onclick="const c=LS(\'contacts\')||[];c.push($(\'#cn\').value);LS(\'contacts\',c);this.parentNode.innerHTML=\'Saved\'">Add</button>';
+if(n=='Camera'){try{const s=await navigator.mediaDevices.getUserMedia({video:true});o.innerHTML='<video autoplay playsinline style=width:100%></video>';o.firstChild.srcObject=s}catch(_){o.textContent='Camera permission needed'}}
+if(n=='Calc')o.innerHTML='<input id=ce style=width:70%><button class=k onclick="try{$(\'#ce\').value=Function(\'return \'+$(\'#ce\').value.replace(/[^0-9+*\\/().-]/g,\'\'))()}catch(e){}">=</button>';
+if(n=='Light')o.innerHTML='<div style="background:#fff;height:200px;border-radius:12px"></div>';if(n=='Compass')o.textContent='Turn your phone… ',addEventListener('deviceorientation',ev=>o.textContent='Heading '+Math.round(ev.alpha||0)+'°',{once:true});
+if(n=='Battery')navigator.getBattery?navigator.getBattery().then(b=>o.textContent='Battery '+Math.round(b.level*100)+'%'+(b.charging?' ⚡':'')):o.textContent='Not available';
+if(n=='Maps')navigator.geolocation.getCurrentPosition(p=>o.innerHTML=`<a target=_blank href="https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}">Open my location</a>`,()=>o.textContent='Location permission needed');
+if(n=='Search')o.innerHTML='<input id=sq><button class=k onclick="open_(\'https://duckduckgo.com/?q=\'+encodeURIComponent($(\'#sq\').value))">Go</button>';if(n=='Eve')open('eve');
+if(n=='Set PIN'){const p=prompt('New 4-digit PIN (blank = none)');pin=p||null;LS('pin',pin)}};
+const scan=()=>{const n=$('#pn').value.replace(/[\s()-]/g,'');let r=B.includes(n)?['⛔ Blocked by you',1]:SPAM.some(x=>x.test(n))?['⚠️ Likely spam / robocall pattern',1]:n.length<10?['❔ Too short — possible spoof',1]:['✅ No spam signals found',0];$('#pres').innerHTML=r[0]+'<br><span class=small>Pattern check on this device. For carrier-level ID, turn on your phone\'s built-in spam filter.</span>'};
+$('#pchk').onclick=scan;$('#pblk').onclick=()=>{B.push($('#pn').value.replace(/[\s()-]/g,''));LS('block',B);scan()};
+const SHL=['Use a VPN (e.g. Surfshark/Proton) for public Wi-Fi','Turn on carrier spam & call filtering','Enable 2-factor on email and bank','Set a SIM PIN with your carrier','Review app permissions monthly','Don\'t answer unknown 800/international calls'],SK=LS('shield')||{};
+$('#shd').innerHTML=SHL.map(t=>`<label style=display:block><input type=checkbox data-s="${t}" ${SK[t]?'checked':''}> ${t}</label>`).join('');$('#shd').onchange=e=>{SK[e.target.dataset.s]=e.target.checked;LS('shield',SK)}});
+const ERR=[];addEventListener('error',e=>ERR.push(new Date().toLocaleTimeString()+' '+e.message));
+win('dev','🛠 Developer Tools',`<h2>Developer Tools</h2><div class=panel><b>Live code runner</b> (HTML/CSS/JS)<br><textarea id=dc rows=7 style=width:48%;font-family:monospace><h1 style="color:gold">Hello 369</h1><script>document.body.append(' '+(3*6*9))<\/script></textarea><iframe id=df style="width:48%;height:160px;background:#fff;border-radius:8px"></iframe><br><button class=k id=drun>▶ Run</button><button class=k id=dsave>Save as .html</button></div>
+<div class=grid><div class=tile><b>Console / errors</b><div id=derr class=small></div><input id=djs placeholder="JS e.g. Q369v29.cmd('set tempo 96')" style=width:95%></div><div class=tile><b>Storage inspector</b><div id=dls class=small style="max-height:160px;overflow:auto"></div></div>
+<div class=tile><b>Backup / restore</b><br><button class=k id=dbk>Export all settings</button><input type=file id=drs accept=.json></div><div class=tile><b>Performance</b><div id=dpf></div></div></div>`,()=>{
+const run=()=>$('#df').srcdoc=$('#dc').value;run();$('#drun').onclick=run;$('#dsave').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('#dc').value]));a.download='369-app.html';a.click()};
+const show=()=>{$('#derr').innerHTML=(ERR.slice(-8).join('<br>')||'No errors ✅');$('#dls').innerHTML=Object.keys(localStorage).filter(k=>k.startsWith('q369_')&&k!='q369_keys').map(k=>`<b>${k.slice(5)}</b>: ${localStorage[k].slice(0,60)}`).join('<br>')};show();
+$('#djs').onkeydown=e=>{if(e.key!='Enter')return;try{ERR.push('› '+String(eval(e.target.value)))}catch(x){ERR.push('✕ '+x.message)}show()};
+$('#dbk').onclick=()=>{const o={};Object.keys(localStorage).filter(k=>k.startsWith('q369_')&&k!='q369_keys').forEach(k=>o[k]=localStorage[k]);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)]));a.download='369-backup.json';a.click()};
+$('#drs').onchange=async e=>{Object.entries(JSON.parse(await e.target.files[0].text())).forEach(([k,v])=>localStorage[k]=v);location.reload()};
+let fr=0,lt=performance.now();(function f(){if(!$('#dpf'))return;fr++;const n=performance.now();if(n-lt>1000){$('#dpf').innerHTML=`FPS ${fr}<br>Audio ${AC?AC.state+' · '+AC.sampleRate+' Hz':'idle'}<br>Memory ${performance.memory?Math.round(performance.memory.usedJSHeapSize/1e6)+' MB':'n/a'}<br>MIDI ${navigator.requestMIDIAccess?'supported':'no'} · Voice ${window.webkitSpeechRecognition||window.SpeechRecognition?'yes':'no'}`;fr=0;lt=n}requestAnimationFrame(f)})()});
+const open_=u=>window.open(u,'_blank');
+function setTheme(t){document.body.className=t;LS('theme',t);$('#theme').value=t}
+function open(k){document.querySelectorAll('#side button').forEach(b=>b.classList.toggle('on',b.dataset.k==k));$('#stage').innerHTML='<div class="win on">'+W[k].html+'</div>';W[k].init&&W[k].init();LS('last',k)}
+$('#side').innerHTML=Object.keys(W).map(k=>`<button data-k=${k}>${W[k].title}</button>`).join('');$('#side').onclick=e=>e.target.dataset.k&&open(e.target.dataset.k);
+$('#theme').onchange=e=>setTheme(e.target.value);setTheme(LS('theme')||'');open(LS('last')||'deck');
+setInterval(()=>{$('#clock').textContent=new Date().toLocaleString()+' · '+moon().n;$('#ro').textContent='BPM '+BPM+(playing?' · ▶':'')},1000);
+window.Q369v29={open,cmd,setTheme,W};
+</script>
+<script>
+/* 369 Quantum Gold v3.0 — Big Tony + Qwen brain + Noen sidekick (default fallback) */
+const QWEN_DEF={chat:'qwen2.5',coder:'qwen2.5-coder',vision:'qwen2.5vl'};
+if(!LS('ollama'))LS('ollama',QWEN_DEF.chat);
+if(NAME==='Mother Eve'&&!LS('name')){NAME='Big Tony';LS('name',NAME)}
+const NOEN={name:'Noen stuph Sr',wake:['noen','hey noen','tony ask noen'],role:"Big Tony's background sidekick and DEFAULT fallback",skills:['full builds (DAW, 369 Casino, apps)','preview videos with sound','images, gold fonts, coins & cash art','original beats & music','voiceovers','GitHub updates'],link:LS('noenLink')||'https://app.zenzap.co'};
+const PACK={Video:'Plan and produce a short premium 369-gold video: shots, motion, sound, captions. Request: ',
+'Images & Fonts':'Create premium wealthy-style 369 gold artwork / lettering (diamond inlay, no generic look). Request: ',
+Coding:'You are a senior developer. Write complete, working, single-file code with no placeholders. Task: ',
+Voice:'Write a natural voiceover script, short lines, then the voice style to use. Request: ',
+Writing:'Write clear, punchy 369-brand copy. Request: ',
+Music:'Design an original West Coast x trap beat: BPM, key, drums, bass, lead, arrangement. Request: '};
+const pick=s=>/code|html|js|bug|app|build/.test(s)?'Coding':/video|promo|clip/.test(s)?'Video':/font|logo|image|art|picture|coin/.test(s)?'Images & Fonts':/voice|narrat/.test(s)?'Voice':/beat|music|song|808/.test(s)?'Music':'Writing';
+async function qwen(t,model){const m=model||(pick(t.toLowerCase())=='Coding'?(LS('qwenCoder')||QWEN_DEF.coder):LS('ollama')||QWEN_DEF.chat);
+const r=await fetch('http://localhost:11434/api/generate',{method:'POST',body:JSON.stringify({model:m,prompt:'You are '+NAME+', the 369 Quantum Gold DAW assistant. '+PACK[pick(t.toLowerCase())]+t,stream:false})});if(!r.ok)throw 0;const j=await r.json();if(!j.response)throw 0;return j.response}
+async function freeTools(t){const ks=LS('keys')||{};if(typeof PROV==='undefined')throw 0;for(const p of PROV){if(/Ollama/.test(p[0])||!ks[p[0]])continue;try{const a=await askAI(p,PACK[pick(t.toLowerCase())]+t);if(a&&!/error/i.test(String(a).slice(0,20)))return a}catch(e){}}throw 0}
+function noen(t,why){const msg='From Big Tony (369 DAW): '+t;try{navigator.clipboard.writeText(msg)}catch(e){}LS('noenQueue',[...(LS('noenQueue')||[]),{t:msg,at:Date.now()}].slice(-50));
+say((why?why+' ':'')+'Handing this to Noen. Your request is copied, paste it in the Noen chat.');window.open(LS('noenLink')||NOEN.link,'_blank')}
+async function tonyBrain(t){const s=t.toLowerCase();
+if(/^(ask |hey )?noen|tony,? ask noen/.test(s))return noen(t.replace(/^.*?noen[, ]*/i,''));
+if(/full build|new version|preview video|make (a )?video|github update/.test(s))return noen(t,'Big job.');
+try{return say(await qwen(t))}catch(e){}
+try{return say(await freeTools(t))}catch(e){}
+noen(t,'Qwen and the free tools are offline.')}
+const _cmd=cmd;cmd=async function(t){if(!t)return;const s=t.toLowerCase();
+if(/noen|tempo|theme|moon|lucy|^play|play beat|stop|open |time/.test(s)&&!/noen/.test(s))return _cmd(t);
+log('🧑 '+t);return tonyBrain(t)};
+win('tonyx','👑 Tony · Qwen · Noen',`<h2>Big Tony Brain v3.0</h2>
+<div class=panel><b>Order Tony uses:</b> 1️⃣ Qwen on your computer (Ollama) → 2️⃣ free / open-source & your keyed tools → 3️⃣ <b>Noen</b> (default when all else fails)<br><span id=qst class=small>Checking Qwen…</span></div>
+<div class=panel><b>🧠 Qwen</b> Chat <input id=qc size=12> Coder <input id=qd size=14> Vision <input id=qv size=12> <button class=k id=qsv>Save</button>
+<p class=small>Setup once: install Ollama from ollama.com, then run <code>ollama pull qwen2.5</code>, <code>ollama pull qwen2.5-coder</code>, <code>ollama pull qwen2.5vl</code>. If the DAW page can't reach it, start Ollama with OLLAMA_ORIGINS=*.</p></div>
+<div class=panel><b>🤝 Noen stuph Sr — sidekick</b><br><span class=small>${NOEN.skills.join(' · ')}</span><br>Noen chat link <input id=nl size=34> <button class=k id=nsv>Save</button><br>
+<input id=nq placeholder="Tony, ask Noen…" style=width:60%> <button class=k id=ngo>Send to Noen</button><div id=nqueue class=small></div></div>
+<div class=panel><b>Ask Tony</b> <input id=tq style=width:60% placeholder="e.g. write a JS reverb, make gold fonts, cut a promo"> <button class=k id=tgo>Ask</button><div id=log style="max-height:180px;overflow:auto"></div></div>
+<div class=panel><b>📦 60 AI Tools prompt pack</b> (auto-loaded)<div class=grid>${Object.keys(PACK).map(k=>`<div class=tile><b>${k}</b><br><span class=small>${PACK[k].slice(0,70)}…</span></div>`).join('')}</div></div>`,()=>{
+$('#qc').value=LS('ollama')||QWEN_DEF.chat;$('#qd').value=LS('qwenCoder')||QWEN_DEF.coder;$('#qv').value=LS('qwenVision')||QWEN_DEF.vision;$('#nl').value=LS('noenLink')||NOEN.link;
+$('#qsv').onclick=()=>{LS('ollama',$('#qc').value);LS('qwenCoder',$('#qd').value);LS('qwenVision',$('#qv').value);say('Qwen saved')};
+$('#nsv').onclick=()=>{LS('noenLink',$('#nl').value);say('Noen link saved')};
+$('#ngo').onclick=()=>noen($('#nq').value);$('#tgo').onclick=()=>cmd($('#tq').value);
+$('#nqueue').innerHTML=(LS('noenQueue')||[]).slice(-5).map(q=>'• '+q.t).join('<br>');
+fetch('http://localhost:11434/api/tags').then(r=>r.json()).then(j=>{const n=(j.models||[]).map(m=>m.name);$('#qst').textContent='🟢 Ollama online · Qwen models: '+(n.filter(x=>/qwen/.test(x)).join(', ')||'none yet, pull qwen2.5')}).catch(()=>$('#qst').textContent='🔴 Ollama not running · Tony will use free tools, then Noen')});
+$('#side').innerHTML=Object.keys(W).map(k=>`<button data-k=${k}>${W[k].title}</button>`).join('');
+window.Q369v30={qwen,noen,tonyBrain,NOEN,PACK};
+</script>
+<script>
+/* 369 Quantum Gold v3.1 — Solomon Library (original audiobooks + temple themes + Tony knowledge). Nothing above changed. */
+const SOL_BOOKS=[
+{t:"The Builders of the Temple",s:"Original 369 audiobook · history",ch:[
+["The King Who Built","Around 960 BCE, the Bible says King Solomon, son of David, began a house for God on Mount Moriah in Jerusalem. The story is told in First Kings, chapters five to eight, and Second Chronicles, chapters two to five."],
+["Hiram of Tyre","Solomon made a deal with Hiram, king of Tyre. Hiram sent cedar and cypress from Lebanon, floated by sea, and Solomon paid in wheat and olive oil. A master bronze worker, also named Hiram, cast the temple metalwork."],
+["The Measure","The house was sixty cubits long, twenty wide and thirty high. Its stones were cut at the quarry, so no hammer or iron tool was heard on site. Inside, the walls were cedar, and the Holy of Holies was a perfect cube, overlaid with gold."],
+["Jachin and Boaz","Two great bronze pillars stood at the porch, named Jachin, he establishes, and Boaz, in strength. Beside them stood the Bronze Sea, a huge basin resting on twelve bronze oxen."],
+["Seven Years","The work took seven years. At the dedication, Solomon prayed for wisdom and justice for his people. Babylon destroyed the temple in 587 BCE. Its builders are remembered as a model of craft, patience and order."]]},
+{t:"Proverbs of the Wise King",s:"Public-domain King James text, read aloud",ch:[
+["Wisdom First","Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding. Proverbs four, seven."],
+["Plans","Commit thy works unto the Lord, and thy thoughts shall be established. Proverbs sixteen, three. Where no counsel is, the people fall: but in the multitude of counsellors there is safety. Proverbs eleven, fourteen."],
+["Diligence","The hand of the diligent shall bear rule: but the slothful shall be under tribute. Proverbs twelve, twenty-four. Go to the ant, thou sluggard; consider her ways, and be wise. Proverbs six, six."],
+["Wealth","Wealth gotten by vanity shall be diminished: but he that gathereth by labour shall increase. Proverbs thirteen, eleven. A good man leaveth an inheritance to his children's children. Proverbs thirteen, twenty-two."],
+["Words","A soft answer turneth away wrath. Proverbs fifteen, one. Death and life are in the power of the tongue. Proverbs eighteen, twenty-one."]]},
+{t:"The Seal and the Code",s:"Original 369 audiobook · legends, labeled as legend",ch:[
+["The Ring","Later legends, not the Bible, say Solomon wore a ring with a seal that could command spirits. The best-known source is the Testament of Solomon, written centuries after his time."],
+["The Star","The seal is drawn as a six-pointed star or a five-pointed star in different traditions. Six points: three plus three, two triangles, above and below joined."],
+["Numbers","Solomon's yearly gold is listed as six hundred sixty-six talents in First Kings ten. The temple is built on threes and sevens: three rooms, thirty cubits high, seven years. Numbers like these were used for order and memory."],
+["The Real Code","The lasting code of Solomon is simple: ask for wisdom before riches, build with measure, finish what you start, and leave something for the next generation. That is the 369 way."]]}];
+const SOL_THEMES={'Temple Gold':['#0d0a05','#d4a017','#fff3c4'],'Cedar & Bronze':['#1a0f08','#b87333','#f2d7b6'],'Seal Star Night':['#05070f','#c9a227','#cfe0ff']};
+const SOL_KB=SOL_BOOKS.flatMap(b=>b.ch.map(c=>({k:(b.t+' '+c[0]+' '+c[1]).toLowerCase(),t:c[0],a:c[1]})));
+LS('tonyKB',SOL_KB.map(x=>x.t+': '+x.a));
+function solAsk(q){const w=q.toLowerCase().split(/\W+/).filter(x=>x.length>3);let best=null,sc=0;
+for(const e of SOL_KB){const s=w.filter(x=>e.k.includes(x)).length;if(s>sc){sc=s;best=e}}return sc>=2?best:null}
+const _qwenSol=qwen;qwen=async function(t,m){return _qwenSol('[Big Tony knowledge: '+SOL_KB.map(x=>x.t+' - '+x.a).join(' | ').slice(0,3500)+'] '+t,m)};
+const _tb31=tonyBrain;tonyBrain=async function(t){if(/solomon|temple|proverb|hiram|jachin|boaz|seal|wisdom/i.test(t)){const h=solAsk(t);if(h){log('📜 '+h.t);return say(h.a)}}return _tb31(t)};
+let solU=null;function solRead(txt){speechSynthesis.cancel();solU=new SpeechSynthesisUtterance(txt);solU.rate=+($('#solr')?.value||0.92);solU.pitch=0.85;speechSynthesis.speak(solU)}
+win('solomon','📜 Solomon Library',`<h2>Solomon Library · Audiobooks</h2>
+<div class=panel>Theme: ${Object.keys(SOL_THEMES).map(k=>`<button class=k data-st="${k}">${k}</button>`).join('')} · Speed <input id=solr type=range min=.7 max=1.2 step=.02 value=.92> <button class=k id=solx>■ Stop</button></div>
+<div id=solb class=grid></div><div class=panel id=solc class=small>Pick a chapter. Tony reads it aloud, and everything here is in Big Tony's brain: ask "Tony, who were Jachin and Boaz?"</div>`,()=>{
+$('#solb').innerHTML=SOL_BOOKS.map((b,i)=>`<div class=tile id=solt${i}><b>${b.t}</b><br><span class=small>${b.s}</span><br><button class=k data-all=${i}>▶ Play book</button>${b.ch.map((c,j)=>`<br><button data-b=${i} data-c=${j}>${j+1}. ${c[0]}</button>`).join('')}</div>`).join('');
+document.querySelectorAll('[data-c]').forEach(e=>e.onclick=()=>{const c=SOL_BOOKS[e.dataset.b].ch[e.dataset.c];$('#solc').innerHTML='<b>'+c[0]+'</b><br>'+c[1];solRead(c[0]+'. '+c[1])});
+document.querySelectorAll('[data-all]').forEach(e=>e.onclick=()=>{const b=SOL_BOOKS[e.dataset.all];$('#solc').innerHTML='<b>'+b.t+'</b>';solRead(b.t+'. '+b.ch.map(c=>c[0]+'. '+c[1]).join(' '))});
+document.querySelectorAll('[data-st]').forEach(e=>e.onclick=()=>{const [bg,g,tx]=SOL_THEMES[e.dataset.st];document.querySelectorAll('#solt0,#solt1,#solt2').forEach(t=>{t.style.background=bg;t.style.border='2px solid '+g;t.style.color=tx;t.style.boxShadow='0 0 18px '+g+'66'});LS('solTheme',e.dataset.st)});
+$('#solx').onclick=()=>speechSynthesis.cancel();const st=LS('solTheme');if(st)document.querySelector(`[data-st="${st}"]`)?.click()});
+$('#side').innerHTML=Object.keys(W).map(k=>`<button data-k=${k}>${W[k].title}</button>`).join('');
+</script>
+<script>
+/* 369 Quantum Gold v3.2 — "The 7 Levels" audiobook added to the Solomon Library. Nothing above changed. */
+const L7C=['#e53935','#fb8c00','#fdd835','#43a047','#1e88e5','#3949ab','#8e24aa'];
+SOL_BOOKS.push({t:"The 7 Levels of Reality",s:"Original 369 audiobook · philosophy & belief, not proven science",ch:[
+["Level 1 · Red · The Crowd","The first level is the world everyone shares: work, noise, habits and other people's opinions. Most people live here on autopilot. The first step is simply noticing it."],
+["Level 2 · Orange · The Eye","The second level is observation. You start watching your own reactions instead of just having them. Old traditions drew this as an open eye, like the Eye of Horus, a symbol of protection and sight."],
+["Level 3 · Yellow · The Mind","The third level is the thinking mind: your beliefs, stories and plans. Here you learn that a thought is not a fact, and you can choose which thoughts to build on."],
+["Level 4 · Green · The Code","The fourth level looks at what you inherited: family patterns, body and DNA. Biology is real, but habits can change. You work with your code, not against it."],
+["Level 5 · Blue · The Mirror","The fifth level is the mirror: the people around you reflect parts of you. Conflict and admiration both show you what you value and what you still need to grow."],
+["Level 6 · Indigo · The Cosmic Self","The sixth level is the big picture: you are small in the universe and still connected to it. Many traditions describe this feeling of awe, calm and belonging."],
+["Level 7 · Violet · The Light","The seventh level is described as clarity or awakening: acting from purpose instead of fear. Whatever you believe, the practice is the same: wisdom first, build with measure, give back. That is the 369 way."]]});
+SOL_BOOKS[3].ch.forEach(c=>SOL_KB.push({k:("7 levels reality seven "+c[0]+" "+c[1]).toLowerCase(),t:c[0],a:c[1]}));
+LS('tonyKB',SOL_KB.map(x=>x.t+': '+x.a));
+const _tb32=tonyBrain;tonyBrain=async function(t){if(/level|seven|7|horus|mirror|cosmic|reality/i.test(t)){const h=solAsk(t);if(h){log('🌈 '+h.t);return say(h.a)}}return _tb32(t)};
+/* themes also style the new book tile; level chapter buttons get their rainbow color */
+const solFix=()=>{const t=document.getElementById('solt3');if(!t||t.dataset.l7)return;t.dataset.l7=1;
+t.querySelectorAll('[data-c]').forEach((b,i)=>{b.style.borderLeft='6px solid '+L7C[i];b.style.background=L7C[i]+'33'});
+const st=LS('solTheme');if(st&&SOL_THEMES[st]){const[bg,g,tx]=SOL_THEMES[st];Object.assign(t.style,{background:bg,border:'2px solid '+g,color:tx,boxShadow:'0 0 18px '+g+'66'})}};
+new MutationObserver(solFix).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('click',e=>{const s=e.target.closest&&e.target.closest('[data-st]');if(s){const t=document.getElementById('solt3');if(t){delete t.dataset.l7;solFix()}}});
+/* 369 Quantum Gold v3.3 — "Fastest AI Income" knowledge added to Big Tony's brain + Solomon Library. Nothing above changed. */
+SOL_BOOKS.push({t:"Fastest AI Income",s:"369 Money Plan · realistic, no get-rich-quick promises",ch:[
+["Rule 1 · Sell a service first","The fastest money is a service, not a product. Products need an audience; services need one client. Pick one skill, offer it today, get paid this week."],
+["Fast earner 1 · Beats and ringtones","Make original beats, loops and ringtones in Gold DAW and sell them on BeatStars, Airbit or your own page. Original only, never samples you don't own. Start with a 10-beat pack."],
+["Fast earner 2 · Logos, thumbnails and gold lettering","Use AI images plus your 369 gold style to make YouTube thumbnails, logos and cover art. Sell on Fiverr or Upwork, or DM small creators. Typical start: 10 to 50 dollars each."],
+["Fast earner 3 · Short videos and edits","Cut Reels, TikToks and Shorts for local businesses and creators with AI captions and music. Monthly packages make steady income."],
+["Fast earner 4 · Simple websites and apps","AI coding tools let you build landing pages and small web apps fast. Local shops, barbers and churches need them. Charge per site plus monthly upkeep."],
+["Fast earner 5 · Voiceovers and audiobooks","AI voice plus your own script writing makes promo voiceovers and short audiobooks. Disclose AI voice and only use voices you have rights to."],
+["Fast earner 6 · AI setup help","Set up chatbots, prompts and automations for small businesses. Many owners will pay someone to just make it work."],
+["Avoid the traps","Skip courses promising passive income overnight, 95 percent off countdowns, crypto bots and reselling cracked tools. Real income takes reps: portfolio, outreach, delivery, repeat."],
+["The 369 Plan","3 offers. 6 portfolio samples each. 9 outreach messages a day. Reinvest the first profits into better tools, then build products and generational wealth."]]});
+{const n=SOL_BOOKS.length-1;SOL_BOOKS[n].ch.forEach(c=>SOL_KB.push({k:("ai income money hustle side fast fastest earn sell "+c[0]+" "+c[1]).toLowerCase(),t:c[0],a:c[1]}));}
+LS('tonyKB',SOL_KB.map(x=>x.t+': '+x.a));
+const _tb33=tonyBrain;tonyBrain=async function(t){if(/income|money|hustle|earn|sell|client|fiverr|cash/i.test(t)){const h=solAsk(t);if(h){log('💰 '+h.t);return say(h.a)}}return _tb33(t)};
+/* 369 Quantum Gold v3.4 — 60 AI Tools prompt pack + Biology section in Big Tony's brain. Nothing above changed. */
+const AI60=[["Image","Stable Diffusion XL","Generate original art from text"],["Image","Flux","Photoreal images and logos"],["Image","ComfyUI","Node workflows for image/video"],["Image","Fooocus","One-click SD images"],["Image","InvokeAI","Pro image canvas"],["Image","Krita AI","Paint with AI in Krita"],["Image","GIMP","Edit and retouch images"],["Image","Upscayl","Upscale images 4x"],["Image","rembg","Remove backgrounds"],["Image","ControlNet","Pose and layout control"],
+["Video","Wan 2.x","Open text-to-video"],["Video","AnimateDiff","Animate stills"],["Video","Kdenlive","Free video editor"],["Video","Shotcut","Free video editor"],["Video","OBS Studio","Record and stream"],["Video","FFmpeg","Convert and cut media"],["Video","Blender","3D, VFX and animation"],["Video","LTX-Video","Fast open video model"],["Video","Natron","Compositing"],["Video","Auto-Editor","Auto-cut silences"],
+["Audio","Audacity","Record and edit audio"],["Audio","LMMS","Free beat making"],["Audio","Ardour","Pro free DAW"],["Audio","MusicGen","Open music generation"],["Audio","Stable Audio Open","Sound and loop generation"],["Audio","Demucs","Split vocals and stems"],["Audio","Whisper","Speech to text"],["Audio","Piper TTS","Offline voices"],["Audio","Coqui XTTS","Voice synthesis"],["Audio","Surge XT","Free synth"],
+["Text","Qwen","Tony's brain: chat, code, vision"],["Text","Llama","Open chat model"],["Text","Mistral","Fast open model"],["Text","DeepSeek","Reasoning and code"],["Text","Gemma","Small open model"],["Text","Ollama","Run models locally"],["Text","LM Studio","Local model app"],["Text","Open WebUI","Chat UI for local models"],["Text","GPT4All","Offline assistant"],["Text","Phi","Tiny open model"],
+["Code","VS Code","Code editor"],["Code","Continue","Open AI code helper"],["Code","Aider","AI pair programmer"],["Code","Qwen-Coder","Code model"],["Code","Git","Version control"],["Code","GitHub Pages","Free hosting"],["Code","Node.js","Run JS apps"],["Code","Python","Scripts and AI"],["Code","Electron","Desktop apps"],["Code","Tauri","Small desktop apps"],
+["Agents","n8n","Open automations"],["Agents","LangChain","Build agents"],["Agents","CrewAI","Agent teams"],["Agents","AutoGen","Multi-agent chat"],["Agents","Flowise","Drag-drop agents"],["Agents","Open Interpreter","AI runs code locally"],["Agents","AnythingLLM","Chat with your docs"],["Agents","PrivateGPT","Private doc Q&A"],["Agents","Tesseract OCR","Read text in images"],["Agents","Noen stuph Sr","Big jobs: builds, videos, beats, GitHub"]];
+const AI60_CMD=AI60.map((x,i)=>({n:i+1,cat:x[0],tool:x[1],use:x[2],cmd:'Tony, use '+x[1]+' to '+x[2].toLowerCase()}));
+LS('tonyAI60',AI60_CMD);
+SOL_BOOKS.push({t:"Biology of the Body & Brain",s:"Evidence-based basics · education, not medical advice",ch:[
+["The Cell","Every living thing is made of cells. Each cell has DNA in its nucleus, mitochondria that make energy (ATP), and a membrane that controls what goes in and out. You have about 30 trillion cells."],
+["DNA and Genes","DNA is a code of four letters: A, T, C and G. Genes are instructions for proteins. Lifestyle can turn some genes up or down; that is called epigenetics."],
+["The Brain","About 86 billion neurons talk through electrical signals and chemicals. Practice strengthens connections; that is neuroplasticity, the real basis of learning a skill."],
+["Brain Chemicals","Dopamine drives motivation and reward, serotonin steadies mood, cortisol handles stress, endorphins ease pain, oxytocin builds trust and bonding."],
+["Heart and Blood","The heart beats about 100,000 times a day, pushing oxygen-rich blood through arteries. Exercise and good sleep keep blood pressure healthy."],
+["Breath and Energy","Lungs trade oxygen for carbon dioxide. Slow breathing, like 4 seconds in and 6 out, calms the nervous system and lowers stress."],
+["Sleep","Deep sleep repairs the body; REM sleep stores memories and emotions. Most adults need 7 to 9 hours. Morning sunlight sets your body clock."],
+["Food and Gut","Protein builds muscle, fiber feeds good gut bacteria, water carries nutrients. The gut talks to the brain through the vagus nerve."],
+["Sound and the Body","The ear turns vibrations into nerve signals. Music can lift dopamine and sync breathing. Keep volume safe: long exposure above 85 decibels can damage hearing."]]});
+{const n=SOL_BOOKS.length-1;SOL_BOOKS[n].ch.forEach(c=>SOL_KB.push({k:("biology body brain cell dna gene health science "+c[0]+" "+c[1]).toLowerCase(),t:c[0],a:c[1]}));}
+LS('tonyKB',SOL_KB.map(x=>x.t+': '+x.a));
+const _tb34=tonyBrain;tonyBrain=async function(t){
+ if(/\b(ai tools?|60 tools|tool list|which tool|prompt pack)\b/i.test(t)){log('🧰 60 AI Tools');return say('I have 60 free and open-source AI tools loaded: '+[...new Set(AI60.map(x=>x[0]))].map(c=>c+': '+AI60.filter(x=>x[0]==c).map(x=>x[1]).slice(0,4).join(', ')).join('. ')+'. Say "Tony, use" and a tool name.')}
+ const m=t.match(/use\s+([\w .\-]+?)(?:\s+to|$)/i);if(m){const h=AI60.find(x=>x[1].toLowerCase()==m[1].trim().toLowerCase()||m[1].toLowerCase().includes(x[1].toLowerCase()));if(h){log('🧰 '+h[1]);return say(h[1]+': '+h[2]+'. '+(h[1].startsWith('Noen')?'Opening Noen with your request.':'It is free and open-source; check the AI Agents Hub for setup.'))}}
+ if(/biology|cell|dna|gene|brain|neuron|dopamine|serotonin|sleep|heart|gut|body/i.test(t)){const h=solAsk(t);if(h){log('🧬 '+h.t);return say(h.a)}}
+ return _tb34(t)};
+</script>
+<style>
+#dvBtn{position:fixed;right:18px;bottom:18px;z-index:99999;background:linear-gradient(135deg,#f9e27a,#b8860b);color:#111;border:0;border-radius:24px;padding:10px 16px;font-weight:800;cursor:pointer;box-shadow:0 0 18px #d4af37}
+#dvPanel{display:none;position:fixed;inset:5% 5%;z-index:99998;background:#0b0905;border:2px solid #d4af37;border-radius:14px;color:#f5e6b0;font-family:system-ui,sans-serif;overflow:auto;padding:18px}
+#dvPanel h2{margin:0 0 4px;color:#ffd75e}#dvPanel .g{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.dvC{background:#17120a;border:1px solid #6b5420;border-radius:10px;padding:12px}.dvC h3{margin:0 0 6px;color:#ffd75e}
+.dvC code{display:block;background:#000;padding:6px;border-radius:6px;font-size:12px;margin:6px 0;white-space:pre-wrap}
+.dvC button{background:#d4af37;border:0;border-radius:6px;padding:4px 8px;margin:2px;cursor:pointer;font-size:12px}
+.dvC a{color:#9fd3ff}.dvR{color:#ff9a7a;font-size:12px}
+</style>
+<button id="dvBtn" onclick="dvT()">369 Big Tony · Dev Agents</button>
+<div id="dvPanel"><button style="float:right" onclick="dvT()">✕</button><h2>Big Tony · Dev Agents</h2>
+<p style="font-size:13px">Free open-source tools. They run on your desktop terminal next to the DAW. Copy the install command, then copy a prompt.</p><div class="g" id="dvG"></div></div>
+<script>
+(function(){var T=[
+["OpenCode","Open-source AI coding agent in your terminal. Free built-in models, no subscription or API key. Works on Windows, Mac, Linux and Kali Linux (sudo apt update first, then the install line). Free model names change over time: run /models to pick one.","https://opencode.ai/","curl -fsSL https://opencode.ai/install | bash",["Add a new 369-themed effect window to my Gold DAW HTML file.","Find and fix why my DAW gets stuck on loading on phones.","List the free models available right now and pick the best one for coding."]],
+["Ruflo","Run a team of coordinated AI agents (swarm).","https://github.com/ruvnet/ruflo","npx ruflo@latest init",["Spin up a planner, coder and tester to build Gold DAW v3.5.","Review my 369-Quantum-Gold-DAW repo and list bugs."]],
+["goose","Local desktop AI assistant that runs tasks and tools.","https://github.com/aaif-goose/goose","See install steps in the repo README (desktop app or CLI)",["Open my DAW folder and package it into a zip release.","Fix my failing GitHub Actions workflows."]],
+["Claude Plugins","Official Claude Code plugins and skills.","https://github.com/anthropics/claude-plugins-official","In Claude Code: /plugin marketplace add anthropics/claude-plugins-official",["Run a security review on my DAW code.","Write tests for the sequencer and mixer."]],
+["Android Skills","Agent skills for building Android apps.","https://github.com/android/skills","git clone https://github.com/android/skills",["Turn my Gold DAW into an Android app wrapper.","Make the DAW controls touch-friendly for phones."]],
+["REA","Reverse Engineer Anything: AI rebuilds an app's UI as your own clean code.","https://github.com/morluto/rea","git clone https://github.com/morluto/rea  (then follow README to add the MCP server to Claude Code, Codex or Cursor)",["Rebuild my own 369 Casino UI as a clean React app.","Rebuild my 369 website layout as a new standalone page."],"Only use on apps you own or open-source apps."],
+["Ollama + Qwen","Free local AI brain that powers Big Tony.","https://github.com/ollama/ollama","ollama pull qwen2.5",["Big Tony: write 8 bars of a trap melody idea.","Big Tony: name and describe my next beat."]],
+["Aider","Free AI pair-programmer that edits files in git.","https://github.com/Aider-AI/aider","python -m pip install aider-install && aider-install",["Add a 9-band EQ to my DAW mixer.","Clean up and comment my DAW script."]],
+["Hermes Agent","Free open-source AI agent (Nous Research). Point it at your own Ollama server for coding and tasks.","https://github.com/NousResearch/hermes-agent","curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash",["Use my Ollama server and add a new 369 window to the DAW.","Review my DAW repo and list the top 5 fixes."]],
+["Kaggle GPU Server","Free 2x Tesla T4 (about 32GB VRAM) on Kaggle running Ollama with a 27B Qwen Q4 model, 64K context. Temporary sessions, not a permanent server.","https://www.kaggle.com/code","curl -fsSL https://ollama.com/install.sh | sh && OLLAMA_KEEP_ALIVE=-1 ollama serve & ollama run qwen3:27b",["Set Big Tony's brain URL to my Kaggle Ollama tunnel.","Benchmark tokens per second and report nvidia-smi usage."]],
+["Cloudflare Tunnel","Free temporary public link to your Ollama server so OpenCode, Hermes and Big Tony can reach it. Keep the link private.","https://github.com/cloudflare/cloudflared","cloudflared tunnel --url http://localhost:11434",["Expose my Ollama on port 11434 and give me the link.","Connect OpenCode to this tunnel URL."]],
+["OmniRoute","Free open-source (MIT) AI gateway: one endpoint routes your coding tools across 237 providers (90+ free) with auto-fallback when one fails or hits a quota. RTK + Caveman token savers.","https://github.com/search?q=omniroute&type=repositories","Install from the OmniRoute GitHub repo, then point OpenCode / Hermes / Claude Code at its local endpoint as a custom OpenAI-compatible base URL.",["Route my OpenCode requests through free providers with fallback.","Build a galaxy-themed landing page for 369 Gold DAW.","Build a habit tracker app with saved builds."],"Free providers may log prompts. Do not send private keys or code you must keep secret."],
+["RTK Token Saver", "Token-minimization playbook used with OmniRoute: trims context so free providers last longer and you hit fewer rate limits.", "https://github.com/search?q=rtk+token&type=repositories", "Enable the RTK playbook in OmniRoute settings (or install from its GitHub repo).", ["Compress my DAW project context before sending it to the model.", "Show how many tokens RTK saved on my last request."]],
+["Caveman Mode", "Token saver that makes the AI answer in short, stripped-down language. Claimed 15-95% savings with RTK.", "https://github.com/search?q=caveman+claude+skill&type=repositories", "Turn on the Caveman playbook in OmniRoute, or add the Caveman skill to Claude Code / OpenCode.", ["Caveman mode: fix the play button bug, short answer only.", "Explain my DAW mixer code in caveman style."]],
+["Codex CLI", "OpenAI's open-source coding agent in your terminal. Can use OmniRoute as a custom endpoint.", "https://github.com/openai/codex", "npm install -g @openai/codex", ["Add a 369 tempo-sync feature to my Gold DAW.", "Review my DAW HTML for bugs and fix them."]],
+["Cursor", "AI code editor. Point it at OmniRoute or Ollama via a custom OpenAI base URL.", "https://cursor.com", "Download from cursor.com, then Settings > Models > Override OpenAI Base URL.", ["Open my 369 DAW repo and add a new skin.", "Refactor Big Tony's panel into its own file."]],
+["UI UX Pro Max", "Design-intelligence skill for AI coding agents: styles, palettes, font pairs and UX rules to build polished pages (the video built a cyberpunk page).", "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill", "npm install -g uipro-cli && uipro init --ai opencode", ["Design a new Divine Gold skin for the 369 DAW with matching fonts.", "Build a cyberpunk 369 landing page for my DAW."]],
+["Anthropic Cybersecurity Skills", "Cybersecurity skill pack for AI agents (used in the video to solve a PortSwigger Web Security Academy lab).", "https://github.com/mukul975/anthropic-cybersecurity-skills", "git clone https://github.com/mukul975/anthropic-cybersecurity-skills then copy the skills into your agent's skills folder.", ["Check my own 369 GitHub Pages site for common security mistakes.", "Walk me through this PortSwigger practice lab step by step."], "Only use on systems you own or have written permission to test, or practice labs like PortSwigger."],
+["Brahma Evo","Experimental desktop AI assistant that writes and registers its own new skills, plus PC and browser control.","https://brahma-evo.netlify.app/","Download the .exe or source from https://brahma-evo.netlify.app/",["Build a skill that exports my DAW beat as WAV.","Build a skill that lists open issues in my 369 repo."],"Can change files and accounts on your PC. Approve actions one by one."]
+],g=document.getElementById('dvG');
+T.forEach(function(t){var d=document.createElement('div');d.className='dvC';
+d.innerHTML='<h3>'+t[0]+'</h3><div>'+t[1]+'</div><a href="'+t[2]+'" target="_blank">'+t[2]+'</a><code>'+t[3]+'</code>'+(t[5]?'<div class="dvR">⚠ '+t[5]+'</div>':'');
+var b=document.createElement('button');b.textContent='Copy install';b.onclick=function(){dvCp(t[3],b)};d.appendChild(b);
+t[4].forEach(function(p,i){var x=document.createElement('button');x.textContent='Prompt '+(i+1);x.title=p;x.onclick=function(){dvCp(p,x)};d.appendChild(x)});g.appendChild(d)});
+window.dvT=function(){var p=document.getElementById('dvPanel');p.style.display=p.style.display=='block'?'none':'block'};
+window.dvCp=function(s,b){(navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(function(){b.textContent='Copied ✓'}).catch(function(){prompt('Copy:',s)})};})();
+</script>
+
+<style>
+#tjBtn{position:fixed;right:16px;bottom:64px;z-index:9998;background:linear-gradient(135deg,#fff3b0,#d4a017,#8a6100);color:#1a1200;border:0;border-radius:22px;padding:10px 16px;font-weight:800;box-shadow:0 0 18px #d4a01788;cursor:pointer}
+#tjPanel{display:none;position:fixed;inset:5% 5%;z-index:9999;background:#0d0a02f2;border:2px solid #d4a017;border-radius:16px;color:#ffe9a8;padding:18px;overflow:auto;font-family:system-ui;box-shadow:0 0 40px #d4a01766}
+#tjPanel h2{margin:0 0 6px;color:#ffd54a}#tjPanel button{background:#2a2005;color:#ffd54a;border:1px solid #d4a017;border-radius:10px;padding:8px 12px;margin:3px;cursor:pointer;font-size:15px}
+#tjPanel button:hover{background:#d4a017;color:#1a1200}#tjPanel input,#tjPanel textarea{width:100%;box-sizing:border-box;background:#1a1405;color:#fff3c4;border:1px solid #8a6100;border-radius:8px;padding:8px;font-size:15px}
+#tjOut{white-space:pre-wrap;background:#140f03;border:1px solid #5a4300;border-radius:8px;padding:10px;margin-top:8px;min-height:60px}
+#tjOrb{width:46px;height:46px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:10px;background:radial-gradient(#fff6c2,#d4a017 60%,#5a3e00);box-shadow:0 0 14px #d4a017}
+#tjOrb.on{animation:tjp 1s infinite}@keyframes tjp{50%{box-shadow:0 0 34px #ffd54a;transform:scale(1.08)}}
+.tjSec{border-left:3px solid #d4a017;padding:4px 8px;margin:4px 0;cursor:pointer}.tjSec.cur{background:#3a2c06}
+</style>
+<button id="tjBtn" onclick="tjT()">🎙 Tony Jr</button>
+<div id="tjPanel"><button style="float:right" onclick="tjT()">✕</button>
+<h2><span id="tjOrb"></span>Tony Jr · Voice Teardown (Big Tony's sidekick)</h2>
+<div>Say <b>"Tony Jr, tear down [site or app]"</b>, <b>"read it"</b>, <b>"next"</b>, <b>"stop"</b> or <b>"build plan"</b>. Or type below.</div>
+<button onclick="tjMic()">🎙 Talk to Tony Jr</button><button onclick="tjSay('Tony Jr here. Tell me what to tear down.')">🔊 Test voice</button>
+<h3>1 · Tear down</h3><input id="tjTarget" placeholder="e.g. my 369 Casino page, or an open-source app">
+<button onclick="tjTear()">Get REA command + prompt</button>
+<h3>2 · Teardown report</h3><textarea id="tjRep" rows="7" placeholder="Paste the REA teardown report here, or drop a .md/.txt file"></textarea>
+<button onclick="tjRead(0)">▶ Read it out loud</button><button onclick="tjNext()">⏭ Next section</button><button onclick="tjStop()">⏹ Stop</button>
+<div id="tjSecs"></div>
+<h3>3 · Build plan</h3><button onclick="tjPlan()">Make original 369 build plan</button><button onclick="tjCopy()">Copy output</button>
+<div id="tjOut">Rule: only tear down apps you own or open-source apps. Tony Jr never copies code, assets or branding — he plans original 369 versions.</div></div>
+<script>(function(){
+var S=[],i=0,rec=null,$=function(x){return document.getElementById(x)};
+window.tjT=function(){var p=$('tjPanel');p.style.display=p.style.display=='block'?'none':'block'};
+window.tjSay=function(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.rate=1;u.pitch=1.15;$('tjOrb').className='on';u.onend=function(){$('tjOrb').className=''};speechSynthesis.speak(u)}catch(e){}};
+function out(t){$('tjOut').textContent=t}
+window.tjTear=function(){var t=$('tjTarget').value.trim()||'my app';
+out('REA install (desktop terminal):\n  git clone https://github.com/morluto/rea && follow its README to add the REA MCP server to Claude Code / Codex / Cursor\n\nPrompt for your coding agent:\n  "Use REA to tear down '+t+'. Give me a teardown report with sections: Overview, Layout, Components, Data & State, Interactions, Audio/Media, Tech Stack, Notes. Structure and evidence only — no copied code or assets."\n\n⚠ Only for apps you own or open-source apps. Then paste the report into box 2.');
+tjSay('Here is the REA command and prompt to tear down '+t+'. Run it in your desktop terminal, then paste the report.')};
+function split(){var r=$('tjRep').value.trim();if(!r)return[];var p=r.split(/\n(?=#{1,3} |\d+[\.\)] |[A-Z][A-Za-z &\/]{2,40}:\s*\n)/);if(p.length<2)p=r.split(/\n\s*\n/);return p.map(function(s){return s.trim()}).filter(Boolean)}
+function draw(){$('tjSecs').innerHTML='';S.forEach(function(s,k){var d=document.createElement('div');d.className='tjSec'+(k==i?' cur':'');d.textContent=s.split('\n')[0].slice(0,90);d.onclick=function(){tjRead(k)};$('tjSecs').appendChild(d)})}
+window.tjRead=function(k){S=split();if(!S.length){tjSay('Paste a teardown report first.');return}i=k||0;draw();tjSay('Section '+(i+1)+' of '+S.length+'. '+S[i].replace(/[#*`>|_-]/g,' '))};
+window.tjNext=function(){if(!S.length)return tjRead(0);if(i<S.length-1){i++;draw();tjSay('Section '+(i+1)+'. '+S[i].replace(/[#*`>|_-]/g,' '))}else tjSay('That was the last section.')};
+window.tjStop=function(){speechSynthesis.cancel();$('tjOrb').className=''};
+window.tjPlan=function(){S=split();var t=$('tjTarget').value.trim()||'the app';var heads=S.map(function(s){return s.split('\n')[0].replace(/^#+\s*/,'').slice(0,60)});
+var p='369 ORIGINAL BUILD PLAN — inspired by '+t+'\n\n1. Name & brand: new 369 name, Divine Gold theme, own icons/art.\n2. Layout: rebuild structure in our own words and code.\n3. Features to re-imagine:\n'+(heads.length?heads.map(function(h,k){return '   '+(k+1)+'. '+h+' → new 369 version'}).join('\n'):'   (paste a report to list sections)')+'\n4. Tech: single-file HTML/JS for Gold DAW, or JUCE for desktop.\n5. Big Tony hookup: add a window/tab in Gold DAW + voice command.\n6. Test: play, tap, phone check, then push to 369-Quantum-Gold-DAW.\n\nRules: no copied code, assets or branding; only from apps you own or open-source.';
+out(p);tjSay('Build plan ready, with '+heads.length+' features to rebuild in the 369 style.')};
+window.tjCopy=function(){var s=$('tjOut').textContent;(navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).catch(function(){prompt('Copy:',s)})};
+$('tjRep').addEventListener('dragover',function(e){e.preventDefault()});
+$('tjRep').addEventListener('drop',function(e){e.preventDefault();var f=e.dataTransfer.files[0];if(f){var r=new FileReader();r.onload=function(){$('tjRep').value=r.result;tjSay('Report loaded.')};r.readAsText(f)}});
+function cmd(t){t=t.toLowerCase();var m=t.match(/tear ?down (.+)/);if(m){$('tjTarget').value=m[1];tjTear()}else if(/read/.test(t))tjRead(0);else if(/next/.test(t))tjNext();else if(/stop/.test(t))tjStop();else if(/plan|build/.test(t))tjPlan();else tjSay('Say tear down, read it, next, stop, or build plan.')}
+window.tjMic=function(){var R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){var t=prompt('Voice not supported here. Type a command for Tony Jr:');if(t)cmd(t);return}
+rec=new R();rec.lang='en-US';rec.onresult=function(e){var t=e.results[0][0].transcript;out('You said: '+t);cmd(t)};$('tjOrb').className='on';rec.onend=function(){$('tjOrb').className=''};rec.start()};
+var dp=document.getElementById('dvPanel');if(dp){var b=document.createElement('button');b.textContent='🎙 Open Tony Jr (voice teardown)';b.style.cssText='display:block;margin:8px 0;font-weight:800';b.onclick=function(){dp.style.display='none';tjT()};var h=dp.querySelector('h2');h.parentNode.insertBefore(b,h.nextSibling)}
+})();</script>
+
+
+<style>
+#evBtn{position:fixed;right:16px;bottom:112px;z-index:9998;background:linear-gradient(135deg,#fff3b0,#d4a017,#8a6100);color:#1a1200;border:0;border-radius:22px;padding:10px 16px;font-weight:800;cursor:pointer}
+#evPanel{display:none;position:fixed;inset:4%;z-index:9999;background:#0d0a02f4;border:2px solid #d4a017;border-radius:16px;color:#ffe9a8;padding:18px;overflow:auto;font-family:system-ui}
+#evPanel h2,#evPanel h3{color:#ffd54a;margin:6px 0}#evPanel button{background:#2a2005;color:#ffd54a;border:1px solid #d4a017;border-radius:10px;padding:7px 11px;margin:3px;cursor:pointer}
+#evPanel input,#evPanel textarea,#evPanel select{background:#1a1405;color:#fff3c4;border:1px solid #8a6100;border-radius:8px;padding:7px;box-sizing:border-box}
+.evTab{display:none}.evTab.on{display:block}.evBox{white-space:pre-wrap;background:#140f03;border:1px solid #5a4300;border-radius:8px;padding:10px;margin-top:6px}
+.evSk{border:1px solid #5a4300;border-radius:10px;padding:6px 10px;margin:4px 0}
+</style>
+<button id="evBtn" onclick="evT()">🧬 Big Tony Evo</button>
+<div id="evPanel"><button style="float:right" onclick="evT()">✕</button>
+<h2>🧬 Big Tony Evo · builds his own skills</h2>
+<div><button onclick="evTab(0)">🧬 Skill Forge</button><button onclick="evTab(1)">🌍 Globe</button><button onclick="evTab(2)">🔌 Arduino &amp; Sensors</button></div>
+<div class="evTab on">
+<p style="font-size:13px">Tell Big Tony what skill you want. He writes it with your local Qwen (Ollama), or a starter template if Ollama isn't running. Review the code, then Register. Skills run in a locked sandbox and are saved in this browser.</p>
+<input id="evAsk" style="width:100%" placeholder="e.g. a skill that gives me a BPM for a mood"><br>
+<input id="evUrl" style="width:60%" value="http://localhost:11434"> <input id="evModel" style="width:30%" value="qwen2.5"><br>
+<button onclick="evGen()">⚡ Create skill</button><button onclick="evReg()">✅ Register skill</button>
+<textarea id="evCode" rows="8" style="width:100%;font-family:monospace" placeholder="function skill(input){ return 'result'; }"></textarea>
+<h3>My skills</h3><div id="evList"></div><input id="evIn" style="width:100%" placeholder="input for the skill">
+<div id="evOut" class="evBox">Pick a skill and press Run.</div><iframe id="evBox" sandbox="allow-scripts" style="display:none"></iframe></div>
+<div class="evTab"><p style="font-size:13px">Drag to spin. Pick two places for the straight-line (aerial) distance.</p>
+<select id="evA"></select> → <select id="evB"></select> <button onclick="evDist()">Distance</button><div id="evD" class="evBox"></div>
+<canvas id="evG" width="460" height="460" style="max-width:100%;display:block;margin:auto;cursor:grab"></canvas></div>
+<div class="evTab"><p style="font-size:13px">Pick a part to see how to wire it to an Arduino Uno, plus starter code.</p>
+<select id="evP" onchange="evPart()"></select><div id="evC" class="evBox" style="font-family:monospace"></div></div>
+</div>
+<script>(function(){var $=function(x){return document.getElementById(x)};window.ev$=$;
+window.evT=function(){var p=$('evPanel');p.style.display=p.style.display=='block'?'none':'block';evDraw()};
+window.evTab=function(n){document.querySelectorAll('.evTab').forEach(function(t,k){t.className='evTab'+(k==n?' on':'')});evDraw()};
+var K='369evoSkills',SK=JSON.parse(localStorage.getItem(K)||'null')||[
+{n:'Mood to BPM',c:"function skill(i){var m={chill:80,sad:70,trap:140,drill:142,house:124,happy:120,hype:150,lofi:85};i=(i||'').toLowerCase();for(var k in m)if(i.indexOf(k)>-1)return k+' = '+m[k]+' BPM';return 'Try: chill, sad, trap, drill, house, happy, hype, lofi';}"},
+{n:'369 Number',c:"function skill(i){function r(s){return String(s).replace(/\\D/g,'').split('').reduce(function(a,b){return a+ +b},0)}var n=r(i);while(n>9)n=r(n);return 'Digital root: '+n+([3,6,9].indexOf(n)>-1?' - a 369 number!':'');}"},
+{n:'Chord helper',c:"function skill(i){var N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],r=N.indexOf((i||'C').trim().toUpperCase());if(r<0)r=0;function c(a){return a.map(function(x){return N[(r+x)%12]}).join(' ')}return c([0,4,7])+' (major) | '+c([0,3,7])+' (minor)';}"}];
+function save(){localStorage.setItem(K,JSON.stringify(SK))}
+function btn(t,f){var b=document.createElement('button');b.textContent=t;b.onclick=f;return b}
+function list(){$('evList').innerHTML='';SK.forEach(function(s,k){var d=document.createElement('div');d.className='evSk';var b=document.createElement('b');b.textContent=s.n+' ';d.appendChild(b);
+d.appendChild(btn('▶ Run',function(){run(s)}));d.appendChild(btn('Edit',function(){$('evCode').value=s.c;$('evAsk').value=s.n}));d.appendChild(btn('Delete',function(){SK.splice(k,1);save();list()}));$('evList').appendChild(d)})}
+function run(s){var f=$('evBox');window.addEventListener('message',function h(m){if(m.source===f.contentWindow){$('evOut').textContent=s.n+':\n'+m.data;window.removeEventListener('message',h)}});
+f.srcdoc='<script>try{'+s.c.replace(/<\/script/gi,'')+';parent.postMessage(String(skill('+JSON.stringify($('evIn').value)+')),"*")}catch(e){parent.postMessage("Error: "+e.message,"*")}<\/script>'}
+function tmpl(a){return "function skill(input){\n  // TODO: "+a.replace(/\n/g,' ')+"\n  return '369 skill got: ' + input;\n}"}
+window.evGen=function(){var a=$('evAsk').value.trim();if(!a){$('evOut').textContent='Type what the skill should do first.';return}$('evOut').textContent='Big Tony is writing the skill...';
+fetch($('evUrl').value.replace(/\/$/,'')+'/api/generate',{method:'POST',body:JSON.stringify({model:$('evModel').value,stream:false,prompt:'Write ONE plain JavaScript function named skill(input) that returns a string. No DOM, no network, no imports. Output only code. Task: '+a})})
+.then(function(r){return r.json()}).then(function(j){var c=(j.response||'').replace(/```[a-z]*|```/g,'').trim();$('evCode').value=c||tmpl(a);$('evOut').textContent='Skill written by Qwen. Review it, then Register.'})
+.catch(function(){$('evCode').value=tmpl(a);$('evOut').textContent='Ollama not reachable, so here is a starter template. Edit it, then Register. (Start Ollama with: OLLAMA_ORIGINS=* ollama serve)'})};
+window.evReg=function(){var c=$('evCode').value.trim();if(!/function\s+skill\s*\(/.test(c)){$('evOut').textContent='Code must define function skill(input).';return}SK.push({n:$('evAsk').value.trim()||'New skill',c:c});save();list();$('evOut').textContent='Skill registered. Big Tony can use it now.'};
+list();})();
+</script><script>(function(){var $=window.ev$;
+var P=[['Atlanta',33.75,-84.39],['New York',40.71,-74.01],['Los Angeles',34.05,-118.24],['Chicago',41.88,-87.63],['Miami',25.76,-80.19],['Houston',29.76,-95.37],['London',51.51,-0.13],['Paris',48.86,2.35],['Lagos',6.52,3.38],['Cairo',30.04,31.24],['Giza Pyramids',29.98,31.13],['Dubai',25.2,55.27],['Mumbai',19.08,72.88],['Tokyo',35.68,139.69],['Sydney',-33.87,151.21],['Rio de Janeiro',-22.91,-43.17]];
+P.forEach(function(p,k){$('evA').add(new Option(p[0],k));$('evB').add(new Option(p[0],k))});$('evB').value=6;
+var rot=-30,D=Math.PI/180,sel=[0,6];
+function pr(la,lo){var l=(lo-rot)*D,f=la*D,t=20*D,x=Math.cos(f)*Math.sin(l),y=Math.sin(f),z=Math.cos(f)*Math.cos(l);return [230+x*200,230-(y*Math.cos(t)-z*Math.sin(t))*200,y*Math.sin(t)+z*Math.cos(t)]}
+function line(g,pts){var s=0;g.beginPath();pts.forEach(function(q){var p=pr(q[0],q[1]);if(p[2]>0){s?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]);s=1}else s=0});g.stroke()}
+window.evDraw=function(){var c=$('evG');if(!c||!c.offsetParent)return;var g=c.getContext('2d');g.clearRect(0,0,460,460);
+var gr=g.createRadialGradient(170,160,20,230,230,200);gr.addColorStop(0,'#4a3808');gr.addColorStop(1,'#0a0700');g.fillStyle=gr;g.beginPath();g.arc(230,230,200,0,7);g.fill();g.strokeStyle='#d4a017';g.lineWidth=2;g.stroke();
+g.lineWidth=.6;g.strokeStyle='#a0781088';var a,b,pts;
+for(a=-180;a<180;a+=30){pts=[];for(b=-90;b<=90;b+=5)pts.push([b,a]);line(g,pts)}
+for(b=-60;b<=60;b+=30){pts=[];for(a=-180;a<=180;a+=5)pts.push([b,a]);line(g,pts)}
+var A=P[sel[0]],B=P[sel[1]];pts=[];for(var i=0;i<=60;i++){var t=i/60;pts.push([A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t])}g.strokeStyle='#ffd54a';g.lineWidth=2;line(g,pts);
+g.font='11px system-ui';P.forEach(function(q,k){var p=pr(q[1],q[2]);if(p[2]>0){g.fillStyle=(k==sel[0]||k==sel[1])?'#fff3b0':'#d4a017';g.beginPath();g.arc(p[0],p[1],k==sel[0]||k==sel[1]?5:3,0,7);g.fill();g.fillText(q[0],p[0]+6,p[1]-4)}})};
+window.evDist=function(){sel=[+$('evA').value,+$('evB').value];var A=P[sel[0]],B=P[sel[1]],f1=A[1]*D,f2=B[1]*D,dl=(B[2]-A[2])*D;
+var h=Math.sin((f2-f1)/2)*Math.sin((f2-f1)/2)+Math.cos(f1)*Math.cos(f2)*Math.sin(dl/2)*Math.sin(dl/2),km=2*6371*Math.asin(Math.sqrt(h));
+$('evD').textContent=A[0]+' → '+B[0]+': '+Math.round(km).toLocaleString()+' km ('+Math.round(km*0.621371).toLocaleString()+' miles) aerial distance';rot=(A[2]+B[2])/2;evDraw()};
+var dn=null;$('evG').onpointerdown=function(e){dn=e.clientX};window.addEventListener('pointerup',function(){dn=null});
+$('evG').onpointermove=function(e){if(dn!==null){rot-=(e.clientX-dn)*0.5;dn=e.clientX;evDraw()}};
+setInterval(function(){if(dn===null){rot+=0.2;evDraw()}},60);
+var W=[['LED','LED long leg → 220Ω resistor → pin 9; short leg → GND','void setup(){pinMode(9,OUTPUT);}\nvoid loop(){digitalWrite(9,HIGH);delay(369);digitalWrite(9,LOW);delay(369);}'],
+['Push button','One side → pin 2; other side → GND (uses INPUT_PULLUP)','void setup(){pinMode(2,INPUT_PULLUP);Serial.begin(9600);}\nvoid loop(){Serial.println(digitalRead(2)==LOW?"pressed":"up");delay(100);}'],
+['Potentiometer (knob)','Outer pins → 5V and GND; middle pin → A0. Great as a DAW volume/filter knob','void setup(){Serial.begin(9600);}\nvoid loop(){Serial.println(analogRead(A0));delay(50);}'],
+['Piezo buzzer','+ → pin 8; − → GND','void setup(){}\nvoid loop(){tone(8,369);delay(300);tone(8,639);delay(300);tone(8,963);delay(300);noTone(8);delay(600);}'],
+['HC-SR04 ultrasonic','VCC → 5V, GND → GND, TRIG → pin 9, ECHO → pin 10','void setup(){pinMode(9,OUTPUT);pinMode(10,INPUT);Serial.begin(9600);}\nvoid loop(){digitalWrite(9,LOW);delayMicroseconds(2);digitalWrite(9,HIGH);delayMicroseconds(10);digitalWrite(9,LOW);\nSerial.println(pulseIn(10,HIGH)*0.0343/2);delay(200);}'],
+['DHT11 temp/humidity','VCC → 5V, GND → GND, DATA → pin 2 (+10kΩ to 5V). Install the DHT sensor library','#include <DHT.h>\nDHT d(2,DHT11);\nvoid setup(){Serial.begin(9600);d.begin();}\nvoid loop(){Serial.print(d.readTemperature());Serial.print("C ");Serial.println(d.readHumidity());delay(2000);}'],
+['Servo motor','Brown → GND, red → 5V, orange → pin 9','#include <Servo.h>\nServo s;\nvoid setup(){s.attach(9);}\nvoid loop(){s.write(0);delay(600);s.write(90);delay(600);s.write(180);delay(600);}'],
+['MIDI controller (Leonardo/Micro)','Knob on A0 as shown above; board must be Leonardo or Pro Micro. Install MIDIUSB library. Shows up as a MIDI device for the DAW (Web MIDI in Chrome)','#include <MIDIUSB.h>\nint last=-1;\nvoid setup(){}\nvoid loop(){int v=analogRead(A0)/8;if(v!=last){midiEventPacket_t e={0x0B,0xB0,7,v};MidiUSB.sendMIDI(e);MidiUSB.flush();last=v;}delay(5);}']];
+W.forEach(function(w,k){$('evP').add(new Option(w[0],k))});
+window.evPart=function(){var w=W[$('evP').value];$('evC').textContent='WIRING\n'+w[1].replace(/; /g,'\n')+'\n\nSTARTER CODE (Arduino IDE)\n'+w[2]};evPart();
+var dp=document.getElementById('dvPanel');if(dp){var b=document.createElement('button');b.textContent='🧬 Open Big Tony Evo (Skill Forge, Globe, Arduino)';b.style.cssText='display:block;margin:8px 0;font-weight:800';b.onclick=function(){dp.style.display='none';evT()};var h=dp.querySelector('h2');h.parentNode.insertBefore(b,h.nextSibling)}
+})();
+</script>
+</body></html>
