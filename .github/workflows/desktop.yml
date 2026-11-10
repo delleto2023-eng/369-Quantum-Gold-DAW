@@ -1,17 +1,35 @@
-name: Build 369 Gold DAW Desktop
-on: {workflow_dispatch: {}, push: {paths: ['desktop/**']}}
+name: Build Golden DAW 369 EXE
+on: {workflow_dispatch: {}, push: {branches: [main], paths: ['desktop/**','*.html','omni/**','play/**','.github/workflows/desktop.yml']}}
+permissions: {contents: write}
 jobs:
   build:
-    strategy: {matrix: {os: [windows-latest, macos-latest]}}
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: {node-version: 20}
+      - name: Bundle all 369 apps
+        shell: bash
+        run: |
+          mkdir -p desktop/app/omni desktop/app/play
+          cp v351.html v348.html casino45.html desktop/app/
+          cp omni/index.html omni/models.json desktop/app/omni/
+          cp play/casino-v4.4.html desktop/app/play/
+          cp desktop/hub.html desktop/app/index.html
       - run: npm install
         working-directory: desktop
       - run: npm run dist
         working-directory: desktop
         env: {CSC_IDENTITY_AUTO_DISCOVERY: 'false'}
       - uses: actions/upload-artifact@v4
-        with: {name: 369-Gold-DAW-${{ matrix.os }}, path: "desktop/dist/*.*"}
+        with: {name: Golden-DAW-369-Windows, path: "desktop/dist/*.exe"}
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: exe-latest
+          name: Golden DAW 369 Omni Suite (Windows EXE)
+          prerelease: false
+          make_latest: true
+          body: "Download Golden-DAW-369-Omni-Suite-3.6.0.exe (portable, double-click to run) or the .zip. Includes Gold DAW v3.5.1, v3.4.8, Omni Gateway + Debate Arena, 369 Casino v4.5 and archive."
+          files: |
+            desktop/dist/*.exe
+            desktop/dist/*.zip
