@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Golden DAW 369 Omni Suite</title>
+<style>*{box-sizing:border-box}html,body{margin:0;height:100%;background:#0b0b0e;color:#f5d77a;font-family:Segoe UI,system-ui,sans-serif;overflow:hidden}
+header{height:52px;display:flex;align-items:center;gap:8px;padding:0 12px;background:linear-gradient(90deg,#1a1408,#0b0b0e);border-bottom:1px solid #8a6d1f}
+.logo{font-weight:800;letter-spacing:2px;margin-right:12px;background:linear-gradient(90deg,#f9e29c,#c9971c);-webkit-background-clip:text;color:transparent}
+button{background:#17130a;color:#f5d77a;border:1px solid #6b5418;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600}
+button.on{background:linear-gradient(#e7c35a,#a87b14);color:#111}button:hover{border-color:#f5d77a}
+.sp{flex:1}main{position:relative;height:calc(100% - 52px)}iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#0b0b0e}iframe.on{display:block}
+#home{position:absolute;inset:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:30px;overflow:auto}
+.card{border:1px solid #6b5418;border-radius:14px;padding:22px;background:radial-gradient(circle at top,#2a200b,#0f0d08);cursor:pointer}.card:hover{border-color:#f5d77a;transform:translateY(-2px)}.card h2{margin:0 0 8px}.card p{color:#cdb87a;margin:0}
+</style></head><body>
+<header><span class="logo">369 OMNI SUITE</span><button data-t="home" class="on">Home</button><span id="tabs"></span><span class="sp"></span><button id="rl" title="Reload tab">⟳</button><button id="fs">⛶</button></header>
+<main><div id="home"></div></main>
+<script>
+const APPS=[["daw","Gold DAW v3.5.1","Latest Gold DAW","v351.html"],["daw348","Gold DAW v3.4.8","Big Tony Dev Agents, Solomon Library, 60 AI Tools","v348.html"],["omni","Omni Gateway","17 AI models, Key Broker, 100-Agent Debate Arena","omni/index.html"],["casino","369 Casino v4.5","Slots with BIG/SUPER/MEGA WIN","casino45.html"],["arch","Casino Archive","v4.0 to v4.4","play/casino-v4.4.html"]];
+const main=document.querySelector('main'),home=document.getElementById('home'),tabs=document.getElementById('tabs'),frames={};let cur='home';
+APPS.forEach(([id,n,d])=>{const b=document.createElement('button');b.dataset.t=id;b.textContent=n;tabs.appendChild(b);const c=document.createElement('div');c.className='card';c.innerHTML='<h2>'+n+'</h2><p>'+d+'</p>';c.onclick=()=>show(id);home.appendChild(c)});
+function show(id){cur=id;document.querySelectorAll('header button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==id));home.style.display=id=='home'?'grid':'none';
+ Object.values(frames).forEach(f=>f.classList.remove('on'));if(id=='home')return;
+ if(!frames[id]){const a=APPS.find(x=>x[0]==id),f=document.createElement('iframe');f.src=a[3];f.allow='autoplay; microphone; camera; fullscreen; clipboard-read; clipboard-write; midi';main.appendChild(f);frames[id]=f}
+ frames[id].classList.add('on');frames[id].focus()}
+document.querySelector('[data-t=home]').onclick=()=>show('home');tabs.onclick=e=>{if(e.target.dataset.t)show(e.target.dataset.t)};
+rl.onclick=()=>{if(frames[cur])frames[cur].contentWindow.location.reload()};fs.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key>='0'&&e.key<='5'){const i=+e.key;show(i==0?'home':APPS[i-1][0])}});
+</script></body></html>
