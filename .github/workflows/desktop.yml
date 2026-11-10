@@ -6,30 +6,41 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with: {repository: delleto2023-eng/369-Chat-Media, path: chatmedia, lfs: false}
       - uses: actions/setup-node@v4
         with: {node-version: 20}
-      - name: Bundle all 369 apps
+      - name: Bundle every 369 app and every chat file
         shell: bash
         run: |
-          mkdir -p desktop/app/omni desktop/app/play
-          cp v351.html v348.html casino45.html desktop/app/
-          cp omni/index.html omni/models.json desktop/app/omni/
-          cp play/casino-v4.4.html desktop/app/play/
-          cp desktop/hub.html desktop/app/index.html
+          set -e
+          A=desktop/app
+          mkdir -p $A/omni $A/play $A/library
+          cp v351.html v35.html v342.html v343.html v344.html v346.html v347.html v348.html casino45.html $A/
+          cp omni/index.html omni/models.json omni/gateway.mjs $A/omni/
+          cp play/*.html $A/play/
+          cp -r examples $A/examples
+          cp desktop/hub.html $A/index.html
+          cd chatmedia
+          for z in *.zip; do 7z x -y -o../$A/library "$z" > /dev/null; done
+          cd ../$A/library
+          # unpack every nested zip into its own folder so all apps inside run
+          for i in 1 2 3; do
+            find . -name "*.zip" -type f | while read z; do d="${z%.zip}"; if [ ! -d "$d" ]; then 7z x -y -o"$d" "$z" > /dev/null || true; fi; done
+          done
+          cd -
+          node desktop/manifest.js $A/library
       - run: npm install
         working-directory: desktop
       - run: npm run dist
         working-directory: desktop
         env: {CSC_IDENTITY_AUTO_DISCOVERY: 'false'}
-      - uses: actions/upload-artifact@v4
-        with: {name: Golden-DAW-369-Windows, path: "desktop/dist/*.exe"}
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: exe-latest
-          name: Golden DAW 369 Omni Suite (Windows EXE)
+          name: Golden DAW 369 Omni Suite - EVERYTHING (Windows EXE)
           prerelease: false
           make_latest: true
-          body: "Download Golden-DAW-369-Omni-Suite-3.6.0.exe (portable, double-click to run) or the .zip. Includes Gold DAW v3.5.1, v3.4.8, Omni Gateway + Debate Arena, 369 Casino v4.5 and archive."
+          body: "Golden-DAW-369-Omni-Suite-4.0.0.zip: unzip and run Golden DAW 369.exe. Contains every app, version, photo, video, audio clip and file from the chat."
           files: |
-            desktop/dist/*.exe
             desktop/dist/*.zip

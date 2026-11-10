@@ -1,24 +1,52 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Golden DAW 369 Omni Suite</title>
 <style>*{box-sizing:border-box}html,body{margin:0;height:100%;background:#0b0b0e;color:#f5d77a;font-family:Segoe UI,system-ui,sans-serif;overflow:hidden}
-header{height:52px;display:flex;align-items:center;gap:8px;padding:0 12px;background:linear-gradient(90deg,#1a1408,#0b0b0e);border-bottom:1px solid #8a6d1f}
-.logo{font-weight:800;letter-spacing:2px;margin-right:12px;background:linear-gradient(90deg,#f9e29c,#c9971c);-webkit-background-clip:text;color:transparent}
-button{background:#17130a;color:#f5d77a;border:1px solid #6b5418;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600}
+header{height:52px;display:flex;align-items:center;gap:6px;padding:0 10px;background:linear-gradient(90deg,#1a1408,#0b0b0e);border-bottom:1px solid #8a6d1f;overflow-x:auto;white-space:nowrap}
+.logo{font-weight:800;letter-spacing:2px;margin-right:10px;color:#f0c75a}
+button{background:#17130a;color:#f5d77a;border:1px solid #6b5418;border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:600;flex:none}
 button.on{background:linear-gradient(#e7c35a,#a87b14);color:#111}button:hover{border-color:#f5d77a}
-.sp{flex:1}main{position:relative;height:calc(100% - 52px)}iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#0b0b0e}iframe.on{display:block}
-#home{position:absolute;inset:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:30px;overflow:auto}
-.card{border:1px solid #6b5418;border-radius:14px;padding:22px;background:radial-gradient(circle at top,#2a200b,#0f0d08);cursor:pointer}.card:hover{border-color:#f5d77a;transform:translateY(-2px)}.card h2{margin:0 0 8px}.card p{color:#cdb87a;margin:0}
+.sp{flex:1}main{position:relative;height:calc(100% - 52px)}main>iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#0b0b0e}main>iframe.on{display:block}
+.pane{position:absolute;inset:0;overflow:auto;padding:24px;display:none}.pane.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{border:1px solid #6b5418;border-radius:14px;padding:18px;background:radial-gradient(circle at top,#2a200b,#0f0d08);cursor:pointer}.card:hover{border-color:#f5d77a}.card h3{margin:0 0 6px}.card p{color:#cdb87a;margin:0;font-size:13px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}#q{flex:1;min-width:200px;padding:9px;border-radius:8px;border:1px solid #6b5418;background:#120f07;color:#f5d77a}
+#items{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.it{border:1px solid #3d3010;border-radius:10px;padding:8px;background:#110e07;cursor:pointer;font-size:12px;word-break:break-all}.it:hover{border-color:#f5d77a}
+.it img,.it video{width:100%;height:120px;object-fit:cover;border-radius:6px;background:#000;pointer-events:none}.tag{display:inline-block;padding:1px 6px;border-radius:5px;background:#3a2c0b;margin-bottom:4px}
+#view{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:9;flex-direction:column}#view.on{display:flex}.c{max-width:94vw;max-height:84vh}#vb iframe{width:92vw;height:84vh;border:0;background:#fff}#vb pre{background:#111;color:#eee;padding:14px;width:92vw;max-height:84vh;overflow:auto;white-space:pre-wrap}
 </style></head><body>
-<header><span class="logo">369 OMNI SUITE</span><button data-t="home" class="on">Home</button><span id="tabs"></span><span class="sp"></span><button id="rl" title="Reload tab">⟳</button><button id="fs">⛶</button></header>
-<main><div id="home"></div></main>
+<header><span class="logo">369 OMNI SUITE</span><button data-t="home" class="on">Home</button><span id="tabs"></span><button data-t="lib">Everything Library</button><span class="sp"></span><button id="rl" title="Reload tab">⟳</button><button id="fsb">⛶</button></header>
+<main><div id="home" class="pane on"><h2>Golden DAW 369 · every app</h2><div class="grid" id="hg"></div><p style="color:#cdb87a;margin-top:20px">Every version, photo, video, audio clip and file from the chat is in <b>Everything Library</b>.</p></div>
+<div id="lib" class="pane"><div class="bar"><input id="q" placeholder="Search everything…"><span id="kf"></span><span id="cnt"></span></div><div id="items"></div></div></main>
+<div id="view"><div style="margin-bottom:8px"><button id="vx">Close ✕</button></div><div id="vb"></div></div>
+<script src="library/manifest.js"></script>
 <script>
-const APPS=[["daw","Gold DAW v3.5.1","Latest Gold DAW","v351.html"],["daw348","Gold DAW v3.4.8","Big Tony Dev Agents, Solomon Library, 60 AI Tools","v348.html"],["omni","Omni Gateway","17 AI models, Key Broker, 100-Agent Debate Arena","omni/index.html"],["casino","369 Casino v4.5","Slots with BIG/SUPER/MEGA WIN","casino45.html"],["arch","Casino Archive","v4.0 to v4.4","play/casino-v4.4.html"]];
-const main=document.querySelector('main'),home=document.getElementById('home'),tabs=document.getElementById('tabs'),frames={};let cur='home';
-APPS.forEach(([id,n,d])=>{const b=document.createElement('button');b.dataset.t=id;b.textContent=n;tabs.appendChild(b);const c=document.createElement('div');c.className='card';c.innerHTML='<h2>'+n+'</h2><p>'+d+'</p>';c.onclick=()=>show(id);home.appendChild(c)});
-function show(id){cur=id;document.querySelectorAll('header button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==id));home.style.display=id=='home'?'grid':'none';
- Object.values(frames).forEach(f=>f.classList.remove('on'));if(id=='home')return;
- if(!frames[id]){const a=APPS.find(x=>x[0]==id),f=document.createElement('iframe');f.src=a[3];f.allow='autoplay; microphone; camera; fullscreen; clipboard-read; clipboard-write; midi';main.appendChild(f);frames[id]=f}
+const LIB=window.LIB||[];const findL=s=>{const x=LIB.find(o=>o.p.endsWith(s));return x?'library/'+x.p:null};
+const APPS=[["daw","Gold DAW v3.5.1","Latest Gold DAW","v351.html"],["daw348","Gold DAW v3.4.8","Big Tony + 19 Dev Agents, Evo, Tony Jr, Solomon Library, 60 AI Tools","v348.html"],
+["omni","Omni Gateway","17 AI models, Key Broker, 100-Agent Debate Arena","omni/index.html"],["super","Super DAW Studio v47","Your full v47 studio","~369 Super DAW Studio/app/index.html"],
+["offline","Offline Studio","Your offline studio suite","~cuppy-files-20261006/offline-studio.html"],["fusion","Gold DAW v1.0 Fusion","369 Fusion Best","~Gold DAW v1.0 - 369 Fusion Best/app/index.html"],
+["v29","Gold DAW v2.9 Execution","14 windows, Agents Hub, Remix Kit","~369-Execution/current/v29-standalone.html"],["combat","369 Combat Kings v2","Supers, hypers, team battle, bosses","~369-Combat-Kings-v2.html"],
+["casino","369 Casino v4.5","BIG/SUPER/MEGA WIN","casino45.html"],["dragon","Casino Dragons Law","v2.0 Gold","~369-Casino-v2.0-DragonsLaw-Gold.html"]]
+.map(a=>{if(a[3][0]=='~')a[3]=findL(a[3].slice(1));return a}).filter(a=>a[3]);
+const mainEl=document.querySelector('main'),frames={};let cur='home',extra=0;const nm=p=>p.split('/').pop();
+function addTab(id,n,d,src){if(!APPS.find(a=>a[0]==id))APPS.push([id,n,d,src]);if(document.querySelector('[data-t="'+id+'"]'))return;const b=document.createElement('button');b.dataset.t=id;b.textContent=n;tabs.appendChild(b)}
+APPS.slice().forEach(([id,n,d,s])=>{addTab(id,n,d,s);const c=document.createElement('div');c.className='card';c.innerHTML='<h3>'+n+'</h3><p>'+d+'</p>';c.onclick=()=>show(id);hg.appendChild(c)});
+function show(id){cur=id;document.querySelectorAll('header button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==id));
+ document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==id));Object.values(frames).forEach(f=>f.classList.remove('on'));if(id=='home'||id=='lib')return;
+ if(!frames[id]){const a=APPS.find(x=>x[0]==id),f=document.createElement('iframe');f.src=encodeURI(a[3]);f.allow='autoplay; microphone; camera; fullscreen; clipboard-read; clipboard-write; midi';mainEl.appendChild(f);frames[id]=f}
  frames[id].classList.add('on');frames[id].focus()}
-document.querySelector('[data-t=home]').onclick=()=>show('home');tabs.onclick=e=>{if(e.target.dataset.t)show(e.target.dataset.t)};
-rl.onclick=()=>{if(frames[cur])frames[cur].contentWindow.location.reload()};fs.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
-document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key>='0'&&e.key<='5'){const i=+e.key;show(i==0?'home':APPS[i-1][0])}});
+document.querySelector('header').addEventListener('click',e=>{if(e.target.dataset.t)show(e.target.dataset.t)});
+rl.onclick=()=>{if(frames[cur])frames[cur].contentWindow.location.reload()};fsb.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+document.addEventListener('keydown',e=>{if(e.key=='Escape')close_();if(e.ctrlKey&&e.key>='0'&&e.key<='9'){const i=+e.key;show(i==0?'home':(APPS[i-1]||[cur])[0])}});
+const K=['all','app','photo','video','audio','pdf','text','file'];let kk='all';const L0=LIB.filter(o=>nm(o.p)!='manifest.js');
+kf.innerHTML=K.map(k=>'<button data-k="'+k+'">'+k+' ('+(k=='all'?L0.length:L0.filter(o=>o.k==k).length)+')</button>').join(' ');
+kf.onclick=e=>{if(e.target.dataset.k){kk=e.target.dataset.k;render()}};q.oninput=render;
+function render(){const s=q.value.toLowerCase();const L=L0.filter(o=>(kk=='all'||o.k==kk)&&o.p.toLowerCase().includes(s));cnt.textContent=L.length+' items';
+ items.innerHTML=L.map(o=>{const u=encodeURI('library/'+o.p);const th=o.k=='photo'?'<img loading="lazy" src="'+u+'">':o.k=='video'?'<video preload="metadata" src="'+u+'#t=1"></video>':'';
+ return '<div class="it" data-p="'+encodeURIComponent(o.p)+'"><span class="tag">'+o.k+'</span>'+th+'<div>'+nm(o.p)+'</div></div>'}).join('')}
+function close_(){view.classList.remove('on');vb.innerHTML=''}vx.onclick=close_;
+items.onclick=async e=>{const d=e.target.closest('.it');if(!d)return;const p=decodeURIComponent(d.dataset.p),o=LIB.find(x=>x.p==p),u=encodeURI('library/'+p);
+ if(o.k=='app'){const id='x'+(++extra);addTab(id,nm(p).replace(/\.html?$/,'').slice(0,30),'','library/'+p);show(id);return}
+ vb.innerHTML=o.k=='photo'?'<img class="c" src="'+u+'">':o.k=='video'?'<video class="c" controls autoplay src="'+u+'"></video>':o.k=='audio'?'<audio controls autoplay src="'+u+'"></audio>':o.k=='pdf'?'<iframe src="'+u+'"></iframe>':o.k=='text'?'<pre id="pt">…</pre>':'<p>'+nm(p)+'<br><a href="'+u+'" download style="color:#f5d77a">Save file</a></p>';
+ view.classList.add('on');if(o.k=='text'){try{pt.textContent=await (await fetch(u)).text()}catch(_){pt.textContent='Could not read file'}}};
+render();
 </script></body></html>
