@@ -1,4 +1,14 @@
-const {app,BrowserWindow}=require('electron');
+const {app,BrowserWindow,shell}=require('electron');
 app.commandLine.appendSwitch('autoplay-policy','no-user-gesture-required');
-app.whenReady().then(()=>{const w=new BrowserWindow({width:1440,height:900,backgroundColor:'#0c0905',title:'369 Gold DAW v3.5',autoHideMenuBar:true});w.loadFile('index.html')});
+app.commandLine.appendSwitch('enable-gpu-rasterization');
+const lock=app.requestSingleInstanceLock(); if(!lock){app.quit()}
+let w;
+app.on('second-instance',()=>{if(w){if(w.isMinimized())w.restore();w.focus()}});
+app.whenReady().then(()=>{
+ w=new BrowserWindow({width:1500,height:920,minWidth:1000,minHeight:640,backgroundColor:'#0b0b0e',title:'Golden DAW 369 Omni Suite',autoHideMenuBar:true,show:false,
+  webPreferences:{contextIsolation:true,backgroundThrottling:false,webSecurity:true}});
+ w.once('ready-to-show',()=>{w.maximize();w.show()});
+ w.webContents.setWindowOpenHandler(({url})=>{if(/^https?:/.test(url)){shell.openExternal(url);return{action:'deny'}}return{action:'allow'}});
+ w.loadFile('app/index.html');
+});
 app.on('window-all-closed',()=>app.quit());
