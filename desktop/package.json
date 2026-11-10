@@ -1,3 +1,4 @@
-{"name":"369-gold-daw","productName":"369 Gold DAW","version":"3.5.0","main":"main.js","scripts":{"start":"electron .","dist":"electron-builder --publish never"},
+{"name":"golden-daw-369-omni-suite","productName":"Golden DAW 369","version":"3.6.0","description":"369 Omni Suite","author":"Delleto","main":"main.js",
+"scripts":{"start":"electron .","dist":"electron-builder --win portable zip --x64 --publish never"},
 "devDependencies":{"electron":"^31.0.0","electron-builder":"^24.13.3"},
-"build":{"appId":"com.delleto.369golddaw","files":["main.js","index.html"],"win":{"target":"portable"},"mac":{"target":"zip"},"linux":{"target":"AppImage"}}}
+"build":{"appId":"com.delleto.golddaw369","artifactName":"Golden-DAW-369-Omni-Suite-${version}.${ext}","files":["main.js","app/**/*"],"asar":true,"win":{"target":["portable","zip"]}}}
