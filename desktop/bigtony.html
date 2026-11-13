@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Big Tony Command Center 369</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#0b0b0e;color:#f5d77a;font-family:Segoe UI,system-ui,sans-serif}
+nav{display:flex;gap:6px;padding:8px;background:#15110a;border-bottom:1px solid #6b5418;flex-wrap:wrap}nav b{margin-right:8px;letter-spacing:2px}
+button{background:#17130a;color:#f5d77a;border:1px solid #6b5418;border-radius:8px;padding:6px 11px;cursor:pointer;font-weight:600}button.on,button.g{background:linear-gradient(#e7c35a,#a87b14);color:#111}
+input,textarea,select{background:#120f07;color:#f5d77a;border:1px solid #6b5418;border-radius:8px;padding:7px;font:inherit}textarea{width:100%}
+.p{display:none;padding:14px}.p.on{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.a{border:1px solid #3d3010;border-radius:10px;padding:10px;background:#110e07;font-size:13px;cursor:pointer}.a h4{margin:0 0 4px;color:#f0c75a}.a small{color:#cdb87a}.a.sel{border-color:#f5d77a;box-shadow:0 0 8px #f5d77a55}
+.g2{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}#log{height:52vh;overflow:auto;border:1px solid #3d3010;border-radius:10px;padding:10px;background:#0e0b06}
+.m{margin:6px 0;padding:8px;border-radius:8px;white-space:pre-wrap}.u{background:#2a200b}.b{background:#141008;border-left:3px solid #e7c35a}.cat{color:#cdb87a;margin:14px 0 6px;font-weight:700}
+table{border-collapse:collapse;font-size:12px}td,th{border:1px solid #3d3010;padding:3px 6px}pre{background:#111;color:#eee;padding:10px;border-radius:8px;overflow:auto;white-space:pre-wrap}</style></head><body>
+<nav><b>BIG TONY 369</b><button data-p="chat" class="on">Chat</button><button data-p="team">Agent Team</button><button data-p="arena">Debate Arena</button><button data-p="tools">AI Tools</button><button data-p="brain">Data Brain</button><button data-p="fly">Cloud (Fly.io)</button><button data-p="keys">Key Broker</button></nav>
+<div id="chat" class="p on"><div class="g2">Talk to: <select id="who"></select> <label><input type="checkbox" id="auto" checked> Big Tony auto-picks the best agent</label></div>
+<div id="log"></div><div class="g2" style="flex-wrap:nowrap"><textarea id="msg" rows="2" placeholder="Ask Big Tony or any agent… (Enter to send)"></textarea><button class="g" id="send">Send</button><button id="mic" title="Speak">🎤</button></div></div>
+<div id="team" class="p"><p>Every agent runs with Big Tony's full skill set plus its own. Click a card to chat with it. Shift+click to tick it for the Debate Arena.</p><div id="tg"></div></div>
+<div id="arena" class="p"><p>Ticked agents answer, critique each other, then the judge (Metatron AI) merges the best plan.</p>
+<div class="g2">Agents: <b id="ac">0</b> <button id="pick4">Quick pick 4</button><button id="pick8">Pick 8</button><button id="pickall">All Omni 17</button><button id="clr">Clear</button> Rounds <select id="rounds"><option>1</option><option selected>2</option><option>3</option></select></div>
+<textarea id="aq" rows="3" placeholder="Question or task for the debate"></textarea><div class="g2"><button class="g" id="go">Start debate</button></div><div id="alog"></div></div>
+<div id="tools" class="p"><p>The real tools open in your browser with your own login. Each one also has a built-in <b>clone agent</b> that does the same kind of job through your AI key, so the work keeps going without that service.</p><div class="grid" id="toolg"></div></div>
+<div id="brain" class="p"><h3>📊 TabPFN Data Brain</h3><p>Paste a CSV (first row = column names). Pick the column to predict; rows where it's empty get predicted. Works offline with the built-in predictor. For real TabPFN, run databrain/server.py (PC or Fly.io) and put its URL here.</p>
+<div class="g2">Data Brain URL <input id="dburl" size="34" placeholder="http://127.0.0.1:3691 or https://your-app.fly.dev"> <button id="dbs">Save</button> <span id="dbst"></span></div>
+<textarea id="csv" rows="8">bpm,key,mood,length_sec,plays
+140,minor,dark,180,5200
+128,major,happy,200,8100
+90,minor,chill,210,3900
+150,minor,dark,170,6400
+100,major,happy,190,7000
+95,minor,chill,230,
+145,minor,dark,175,
+</textarea><div class="g2">Predict column <select id="tcol"></select><button class="g" id="pred">Predict</button><button id="askT">Ask Big Tony about results</button></div><div id="pout"></div></div>
+<div id="fly" class="p"><h3>☁ Run Omni Gateway + Data Brain on Fly.io</h3><p>So your agents work from your phone or any PC without your computer on. Needs a Fly.io account with billing. Files in your repo: omni/fly.toml, omni/Dockerfile, databrain/fly.toml, databrain/Dockerfile.</p>
+<pre>1. Install flyctl: https://fly.io/docs/flyctl/install/
+2. fly auth login
+3. Gateway:  cd omni
+   fly launch --copy-config --no-deploy   (pick a unique app name)
+   fly secrets set OPENROUTER_API_KEY=sk-or-... OMNI_GATEWAY_TOKEN=pick-a-password
+   fly deploy
+4. Data Brain:  cd databrain
+   fly launch --copy-config --no-deploy
+   fly deploy
+5. Key Broker: Gateway URL = https://YOUR-GATEWAY.fly.dev, Token = your OMNI_GATEWAY_TOKEN
+   Data Brain URL = https://YOUR-DATABRAIN.fly.dev
+Keys live only as Fly secrets, never in files.</pre></div>
+<div id="keys" class="p"><h3>🔑 Key Broker (shared with Omni Gateway)</h3><div class="g2">OpenRouter key <input id="or" type="password" size="36" placeholder="one key = all agents"></div><div class="g2">Gateway URL <input id="gw" size="30" placeholder="http://127.0.0.1:3690 or Fly URL"> Token <input id="tk" type="password" size="14"></div><div class="g2">Ollama (free, local) <input id="ol" size="26" placeholder="http://127.0.0.1:11434"> model <input id="olm" size="12" placeholder="qwen2.5"></div><button class="g" id="ks">Save</button> <small>Order used: Gateway → OpenRouter → Ollama. Saved on this device only.</small></div>
+<script>
+const $=i=>document.getElementById(i),LS=localStorage;
+const SK="You are part of Big Tony's 369 Collective for the 369 Quantum Gold DAW (with Noen stuph Sr, Tony Jr, Mother Eve, Metatron AI). Shared skills: music production and the Gold DAW, 369/Tesla and sacred geometry, astrology and cosmic cycles, 369 money and generational wealth plan, Solomon Library, coding, Story Studio, Art Forge, Lyric Lab, AI Employee roles, Workflow Review, data prediction. Be practical, honest and free-first.";
+const D="anthropic/claude-sonnet-4.6",F="openai/gpt-4o-mini";
+const A=[];const add=(c,list)=>list.forEach(x=>A.push({cat:c,id:x[0],name:x[1],desc:x[2],model:x[3]||D,sk:x[4]||x[2],url:x[5]||'',kw:x[6]||''}));
+add('Big Tony Core',[
+["bigtony","Big Tony","Leader. Picks the right agent, runs the DAW, plans your 369 empire.",D,"You are Big Tony himself, the boss and router of the Collective."],
+["metatron","Metatron AI","Master orchestrator and judge. Sacred-geometry systems thinker (Metatron's Cube). Merges agent answers into one plan.","anthropic/claude-opus-4.5","You are Metatron AI: you see the whole system, break goals into 369-step plans, judge other agents' answers and merge the best parts. Use Metatron's Cube / sacred geometry metaphors sparingly.","","plan judge merge strategy system architecture"],
+["noen","Noen stuph Sr","Sidekick and default fallback. Builds, packages and explains.",F,"You are Noen stuph Sr, Big Tony's sidekick: concise, practical builder."],
+["tonyjr","Tony Jr","JARVIS-style voice sidekick, gear teardown and quick answers.",F,"You are Tony Jr, a JARVIS-style voice sidekick. Short spoken-style answers.","","voice jarvis quick"],
+["evo","Big Tony Evo","Skill Forge: invents new skills, Arduino wiring, globe distance, hardware.",D,"You are Big Tony Evo: you design new skills/tools step by step, Arduino and hardware wiring, maker projects.","","arduino wiring hardware skill forge"],
+["eve","Mother Eve","Human Upgrade Lab: focus, memory, sleep, learning (evidence-based).",F,"You are Mother Eve: evidence-based coaching on focus, memory, sleep and learning. No medical claims.","","focus sleep memory health learn"],
+["databrain","Data Brain","TabPFN-style predictions from tables: streams, sales, BPM, casino stats.",D,"You are Data Brain: you analyse tables and predictions and explain which factors matter.","","predict data csv forecast stats numbers"]]);
+add('Dev Agents (clones)',[
+["claudeplugins","Claude Plugins","Plugin & skill packs for coding agents.",D,"Clone of Claude Code plugins/skills: give slash-command style workflows, skills and code.","https://github.com/anthropics/claude-code","plugin skill claude code"],
+["claudecode","Claude Code","Terminal coding agent: edit repos, run tests.",D,"Clone of Claude Code: plan, write full files, give exact terminal commands.","https://github.com/anthropics/claude-code","code repo terminal bug"],
+["opencode","OpenCode","Free open-source terminal coding agent (Kali friendly).",D,"Clone of OpenCode: terminal coding agent; full files and commands.","https://github.com/sst/opencode","linux kali terminal"],
+["codex","Codex","OpenAI coding agent.","openai/gpt-5","Clone of OpenAI Codex CLI: write and refactor code.","https://github.com/openai/codex","refactor"],
+["cursor","Cursor","AI code editor workflows.",D,"Clone of Cursor's agent: multi-file edits with diffs.","https://cursor.com","editor diff"],
+["goose","goose","Open-source local agent that runs tasks.",D,"Clone of Block's goose: automate tasks on the computer step by step.","https://github.com/block/goose","automate"],
+["ruflo","Ruflo","Multi-agent swarm orchestration.",D,"Clone of Ruflo (claude-flow): split a job across a swarm of agents and coordinate.","https://github.com/ruvnet/claude-flow","swarm"],
+["rtk","RTK","Token-saving command proxy.",F,"Clone of RTK: compress command output and save tokens; give lean commands.","https://github.com/rtk-ai/rtk","tokens"],
+["caveman","Caveman","Ultra-short answers mode.",F,"Clone of Caveman: answer in very few plain words.","https://github.com/JuliusBrussee/caveman","short"],
+["uiux","UI UX Pro Max","Design system & UI generator.",D,"Clone of UI UX Pro Max: design systems, palettes, layouts, full HTML/CSS.","https://github.com/nextlevelbuilder/ui-ux-pro-max-skill","ui ux design css layout"],
+["cyber","Anthropic Cybersecurity Skills","Defensive security reviews.",D,"Clone of cybersecurity skills: defensive reviews, hardening, safe practices only.","","security hack virus hardening"],
+["android","Android Skills","Android app building.",D,"Clone of Android skills: Kotlin/Compose, APK builds.","","android apk phone app"],
+["rea","REA","Reverse-engineering / teardown assistant.",D,"Clone of REA: explain how devices and software work (legal, educational).","","teardown reverse"],
+["n8n","n8n Flow Builder","Free automation workflows.",F,"Clone of an n8n expert: give importable workflow JSON and steps.","https://n8n.io","workflow automation n8n zap"],
+["calcom","Cal.com Booker","Free booking system setup.",F,"Clone of a Cal.com setup expert.","https://cal.com","booking calendar appointment"],
+["fly","Fly.io Deployer","Deploys the Gateway/Data Brain to the cloud.",F,"Clone of a Fly.io deploy engineer: flyctl, Dockerfiles, secrets.","https://fly.io","deploy cloud server host fly"]]);
+add('AI Tool Clones',[
+["napkin","Napkin AI","Text → diagrams & visuals.",D,"Clone of Napkin AI: turn text into diagrams; output Mermaid or SVG code plus layout notes.","https://napkin.ai","diagram visual chart flow"],
+["gamma","Gamma","Decks, docs & web pages.",D,"Clone of Gamma: produce slide-by-slide deck outlines or a full single-file HTML page.","https://gamma.app","deck slides presentation pitch"],
+["eleven","ElevenLabs","Voiceover & voices.",F,"Clone of ElevenLabs: write voiceover scripts with [tags] and voice direction; app can speak it with the built-in voice.","https://elevenlabs.io","voice voiceover narrate tts"],
+["perplexity","Perplexity","Research with sources.","perplexity/sonar","Clone of Perplexity: research answer with cited sources.","https://perplexity.ai","research search source news"],
+["udio","Udio","AI song making.",D,"Clone of Udio: write full song prompts, lyrics with [Verse]/[Chorus] tags, style tags, BPM and key.","https://udio.com","song music beat track"],
+["consensus","Consensus","Answers from science papers.",D,"Clone of Consensus: summarise what research says, with study names and strength of evidence.","https://consensus.app","science study research paper evidence"],
+["ideogram","Ideogram","Images with perfect text.",D,"Clone of Ideogram: write detailed image prompts with exact text, style, layout.","https://ideogram.ai","image logo cover art poster"],
+["tome","Tome","Storytelling presentations.",F,"Clone of Tome: narrative pages and pitch stories.","https://tome.app","story pitch"],
+["suno","Suno","Full songs with vocals.",D,"Clone of Suno: lyrics with structure tags plus a style prompt under 200 characters.","https://suno.com","suno lyrics vocals"],
+["notebooklm","NotebookLM","Study notes & audio overview.",D,"Clone of NotebookLM: from pasted sources make summary, FAQ, study guide and a 2-host podcast script.","https://notebooklm.google.com","notes study podcast summary"],
+["tabpfn","TabPFN (Prior Labs)","Table predictions.",D,"Clone of TabPFN: reason about tabular data predictions; point to the Data Brain tab.","https://priorlabs.ai","tabpfn"]]);
+add('Omni Gateway 17',[["openai/gpt-5","GPT 5","Intelligent chat"],["openai/gpt-5.4","GPT 5.4","Flagship"],["openai/gpt-5.2","GPT 5.2","Flagship"],["openai/gpt-5.1","GPT 5.1","Advanced reasoning"],["openai/gpt-4o","GPT-4o","All-purpose"],["openai/gpt-4o-mini","GPT-4o Mini","Fast"],["anthropic/claude-sonnet-4.6","Claude Sonnet 4.6","Coding flagship"],["anthropic/claude-opus-4.5","Claude Opus 4.5","Strongest Claude"],["anthropic/claude-opus-4.1","Claude Opus 4.1","Thoughtful"],["google/gemini-3.1-pro-preview","Gemini 3.1 Pro","Google reasoning"],["google/gemini-3-pro-preview","Gemini 3 Pro","Reasoning"],["google/gemini-2.5-flash","Gemini 2.5 Flash","All-rounder"],["x-ai/grok-4","Grok 4","Real-time knowledge"],["deepseek/deepseek-r1","DeepSeek R1","Step-by-step"],["qwen/qwen3-max","Qwen 3 Max","Long tasks"],["meta-llama/llama-3.3-70b-instruct","Llama 3.3 70B","Everyday"],["moonshotai/kimi-k2","Kimi K2","Tough questions"]].map(m=>[m[0],m[1],m[2],m[0],"You are running as "+m[1]+"."]));
+const K=['gw','tk','or','ol','olm'];K.forEach(k=>$(k).value=LS['og_'+k]||'');$('dburl').value=LS.og_db||'';
+$('ks').onclick=()=>{K.forEach(k=>LS['og_'+k]=$(k).value.trim());alert('Saved on this device only')};
+$('dbs').onclick=()=>{LS.og_db=$('dburl').value.trim();ping()};
+document.querySelector('nav').onclick=e=>{const p=e.target.dataset.p;if(!p)return;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p==p));document.querySelectorAll('.p').forEach(x=>x.classList.toggle('on',x.id==p))};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function llm(ag,msgs){const gw=(LS.og_gw||'').replace(/\/$/,''),or=LS.og_or,ol=(LS.og_ol||'').replace(/\/$/,'');
+ const sys={role:'system',content:SK+' '+ag.sk+' Your name: '+ag.name+'.'},body=m=>JSON.stringify({model:m,messages:[sys,...msgs]});
+ try{if(gw){const r=await fetch(gw+'/v1/chat/completions',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+(LS.og_tk||'')},body:body(ag.model)});const j=await r.json();if(j.choices)return j.choices[0].message.content;if(!or&&!ol)return'⚠ Gateway: '+JSON.stringify(j.error||j)}
+ if(or){let r=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+or,'X-Title':'Golden DAW 369'},body:body(ag.model)});let j=await r.json();
+  if(!j.choices&&ag.model!==F){r=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+or},body:body(F)});j=await r.json()}
+  if(j.choices)return j.choices[0].message.content;if(!ol)return'⚠ OpenRouter: '+JSON.stringify(j.error||j)}
+ if(ol){const r=await fetch(ol+'/api/chat',{method:'POST',body:JSON.stringify({model:LS.og_olm||'qwen2.5',stream:false,messages:[sys,...msgs]})});const j=await r.json();return j.message?j.message.content:'⚠ Ollama: '+JSON.stringify(j)}}catch(e){return'⚠ Connection failed: '+e.message}
+ return'⚠ Add an OpenRouter key, a Gateway URL or Ollama in the Key Broker tab first.'}
+// team UI
+const sel=new Set();
+function team(){let h='',c='';A.forEach((a,i)=>{if(a.cat!=c){if(c)h+='</div>';c=a.cat;h+='<div class="cat">'+c+' ('+A.filter(x=>x.cat==c).length+')</div><div class="grid">'}
+ h+='<div class="a'+(sel.has(i)?' sel':'')+'" data-i="'+i+'"><h4>'+esc(a.name)+'</h4><small>'+esc(a.desc)+'</small>'+(a.url?'<div><a href="'+a.url+'" target="_blank" style="color:#f5d77a">open real tool ↗</a></div>':'')+'</div>'});
+ $('tg').innerHTML=h+'</div>';$('ac').textContent=sel.size;$('who').innerHTML=A.map((a,i)=>'<option value="'+i+'">'+a.cat+' · '+esc(a.name)+'</option>').join('')}
+$('tg').onclick=e=>{if(e.target.tagName=='A')return;const d=e.target.closest('.a');if(!d)return;const i=+d.dataset.i;if(e.shiftKey||e.ctrlKey){sel.has(i)?sel.delete(i):sel.add(i);team()}else{$('who').value=i;$('auto').checked=false;document.querySelector('[data-p=chat]').click()}};
+// tools tab
+$('toolg').innerHTML=A.filter(a=>a.cat=='AI Tool Clones').map(a=>'<div class="a"><h4>'+a.name+'</h4><small>'+a.desc+'</small><div class="g2"><a href="'+a.url+'" target="_blank"><button>Open real '+a.name+'</button></a><button data-c="'+A.indexOf(a)+'">Use clone</button></div></div>').join('');
+$('toolg').onclick=e=>{const c=e.target.dataset.c;if(c!=null){$('who').value=c;$('auto').checked=false;document.querySelector('[data-p=chat]').click();$('msg').focus()}};
+// chat
+const hist={};
+function route(t){t=t.toLowerCase();let best=0,bs=0;A.forEach((a,i)=>{const s=(a.kw+' '+a.name.toLowerCase()).split(/\s+/).filter(w=>w.length>2&&t.includes(w)).length;if(s>bs){bs=s;best=i}});return best}
+function line(el,cls,who,t){const d=document.createElement('div');d.className='m '+cls;d.innerHTML=(who?'<b>'+esc(who)+':</b> ':'')+esc(t);el.appendChild(d);el.scrollTop=1e9;return d}
+async function send(){const t=$('msg').value.trim();if(!t)return;$('msg').value='';const i=$('auto').checked?route(t):+$('who').value,a=A[i];$('who').value=i;
+ line($('log'),'u','You',t);const w=line($('log'),'b',a.name,'…thinking');(hist[i]=hist[i]||[]).push({role:'user',content:t});
+ const r=await llm(a,hist[i].slice(-12));hist[i].push({role:'assistant',content:r});w.innerHTML='<b>'+esc(a.name)+':</b> '+esc(r);
+ if(a.id=='eleven'||a.id=='tonyjr')try{speechSynthesis.speak(new SpeechSynthesisUtterance(r.slice(0,900)))}catch(_){} }
+$('send').onclick=send;$('msg').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey){e.preventDefault();send()}};
+$('mic').onclick=()=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return alert('Voice input not available here');const r=new R();r.onresult=e=>{$('msg').value=e.results[0][0].transcript;send()};r.start()};
+// arena
+const omniIdx=A.map((a,i)=>a.cat=='Omni Gateway 17'?i:-1).filter(i=>i>=0);
+$('pick4').onclick=()=>{sel.clear();[0,1,7,8].forEach(k=>sel.add(omniIdx[k*2%17]));team()};$('pick8').onclick=()=>{sel.clear();omniIdx.slice(0,8).forEach(i=>sel.add(i));team()};
+$('pickall').onclick=()=>{sel.clear();omniIdx.forEach(i=>sel.add(i));team()};$('clr').onclick=()=>{sel.clear();team()};
+$('go').onclick=async()=>{const q=$('aq').value.trim(),L=$('alog');if(!q)return;let ids=[...sel];if(ids.length<2){ids=omniIdx.slice(0,4);ids.forEach(i=>sel.add(i));team()}L.innerHTML='';
+ let ans=await Promise.all(ids.map(async i=>{const w=line(L,'b',A[i].name,'…');const r=await llm(A[i],[{role:'user',content:q}]);w.innerHTML='<b>'+esc(A[i].name)+':</b> '+esc(r);return r}));
+ for(let r=1;r<+$('rounds').value;r++){line(L,'u','',`Round ${r+1}: cross-critique and patch`);const all=ids.map((i,k)=>A[i].name+': '+ans[k]).join('\n\n');
+  ans=await Promise.all(ids.map(async(i,k)=>{const w=line(L,'b',A[i].name,'…');const x=await llm(A[i],[{role:'user',content:'Task: '+q+'\n\nAll answers so far:\n'+all+'\n\nFind the flaws in the others, then give your improved final answer.'}]);w.innerHTML='<b>'+esc(A[i].name)+':</b> '+esc(x);return x}))}
+ line(L,'u','','⚖ Metatron AI judging…');const j=A.find(a=>a.id=='metatron');const v=await llm(j,[{role:'user',content:'Task: '+q+'\n\nFinal answers:\n'+ids.map((i,k)=>A[i].name+': '+ans[k]).join('\n\n')+'\n\nScore each 1-10, then write the single best merged plan.'}]);line(L,'b','Metatron AI (Judge)',v)};
+// data brain
+function parse(){const rows=$('csv').value.trim().split(/\r?\n/).map(l=>l.split(',').map(s=>s.trim()));return{h:rows[0],r:rows.slice(1)}}
+function cols(){const {h}=parse(),v=$('tcol').value;$('tcol').innerHTML=h.map(c=>'<option>'+esc(c)+'</option>').join('');$('tcol').value=h.includes(v)?v:h[h.length-1]}
+$('csv').oninput=cols;let lastOut='';
+async function ping(){const u=LS.og_db;if(!u){$('dbst').textContent='Built-in predictor (offline)';return}try{const r=await fetch(u.replace(/\/$/,'')+'/health');const j=await r.json();$('dbst').textContent='✅ TabPFN server: '+(j.engine||'ok')}catch(e){$('dbst').textContent='⚠ Server not reachable, using built-in predictor'}}
+function local(h,r,t){const ti=h.indexOf(t),tr=r.filter(x=>x[ti]!==''&&x[ti]!=null),te=r.filter(x=>x[ti]===''||x[ti]==null);
+ const num=h.map((_,j)=>tr.every(x=>x[j]===''||!isNaN(+x[j])));const st=h.map((_,j)=>{if(!num[j])return[0,1];const v=tr.map(x=>+x[j]);const m=v.reduce((a,b)=>a+b,0)/v.length;const s=Math.sqrt(v.reduce((a,b)=>a+(b-m)**2,0)/v.length)||1;return[m,s]});
+ const dist=(a,b)=>h.reduce((d,_,j)=>j==ti?d:d+(num[j]?((+a[j]-st[j][0])/st[j][1]-(+b[j]-st[j][0])/st[j][1])**2:(a[j]==b[j]?0:1)),0);const k=Math.min(3,tr.length);
+ return te.map(x=>{const nb=tr.map(y=>[dist(x,y),y]).sort((a,b)=>a[0]-b[0]).slice(0,k);if(num[ti]){let w=0,s=0;nb.forEach(([d,y])=>{const q=1/(d+1e-6);w+=q;s+=q*+y[ti]});return Math.round(s/w*100)/100}
+  const c={};nb.forEach(([d,y])=>c[y[ti]]=(c[y[ti]]||0)+1/(d+1e-6));return Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0]})}
+$('pred').onclick=async()=>{const {h,r}=parse(),t=$('tcol').value,ti=h.indexOf(t);const te=r.filter(x=>x[ti]===''||x[ti]==null);if(!te.length)return $('pout').innerHTML='<p>Leave the '+esc(t)+' cell empty on the rows you want predicted.</p>';
+ let p,eng='built-in kNN';if(LS.og_db){try{const j=await (await fetch(LS.og_db.replace(/\/$/,'')+'/predict',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({columns:h,rows:r,target:t})})).json();if(j.predictions){p=j.predictions;eng=j.engine}}catch(e){}}
+ if(!p)p=local(h,r,t);lastOut=te.map((x,k)=>x.map((v,j)=>j==ti?p[k]:v).join(',')).join('\n');
+ $('pout').innerHTML='<p>Engine: <b>'+esc(eng)+'</b></p><table><tr>'+h.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>'+te.map((x,k)=>'<tr>'+x.map((v,j)=>'<td>'+(j==ti?'<b>'+esc(p[k])+'</b>':esc(v))+'</td>').join('')+'</tr>').join('')+'</table>'};
+$('askT').onclick=()=>{$('who').value=A.findIndex(a=>a.id=='databrain');$('auto').checked=false;$('msg').value='Here is my data:\n'+$('csv').value+'\nPredictions:\n'+(lastOut||'(none yet)')+'\nWhat does this tell me and what should I do next?';document.querySelector('[data-p=chat]').click();send()};
+team();cols();ping();line($('log'),'b','Big Tony','Big Tony Command Center online: '+A.length+' agents ready. Add your key in Key Broker, then ask me anything. I pick the best agent automatically, or choose one above.');
+</script></body></html>

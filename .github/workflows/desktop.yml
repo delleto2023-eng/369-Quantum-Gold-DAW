@@ -1,5 +1,5 @@
 name: Build Golden DAW 369 EXE
-on: {workflow_dispatch: {}, push: {branches: [main], paths: ['desktop/**','*.html','omni/**','play/**','.github/workflows/desktop.yml']}}
+on: {workflow_dispatch: {}, push: {branches: [main], paths: ['desktop/**','*.html','omni/**','play/**','databrain/**','.github/workflows/desktop.yml']}}
 permissions: {contents: write}
 jobs:
   build:
@@ -15,16 +15,17 @@ jobs:
         run: |
           set -e
           A=desktop/app
-          mkdir -p $A/omni $A/play $A/library
+          mkdir -p $A/omni $A/play $A/library $A/databrain
           cp v351.html v35.html v342.html v343.html v344.html v346.html v347.html v348.html casino45.html $A/
-          cp omni/index.html omni/models.json omni/gateway.mjs $A/omni/
+          cp desktop/bigtony.html $A/
+          cp omni/index.html omni/models.json omni/gateway.mjs omni/Dockerfile omni/fly.toml $A/omni/
+          cp databrain/* $A/databrain/
           cp play/*.html $A/play/
           cp -r examples $A/examples
           cp desktop/hub.html $A/index.html
           cd chatmedia
           for z in *.zip; do 7z x -y -o../$A/library "$z" > /dev/null; done
           cd ../$A/library
-          # unpack every nested zip into its own folder so all apps inside run
           for i in 1 2 3; do
             find . -name "*.zip" -type f | while read z; do d="${z%.zip}"; if [ ! -d "$d" ]; then 7z x -y -o"$d" "$z" > /dev/null || true; fi; done
           done
@@ -38,9 +39,9 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: exe-latest
-          name: Golden DAW 369 Omni Suite - EVERYTHING (Windows EXE)
+          name: Golden DAW 369 Omni Suite 4.1 - EVERYTHING + Big Tony Command Center (Windows EXE)
           prerelease: false
           make_latest: true
-          body: "Golden-DAW-369-Omni-Suite-4.0.0.zip: unzip and run Golden DAW 369.exe. Contains every app, version, photo, video, audio clip and file from the chat."
+          body: "Golden-DAW-369-Omni-Suite-4.1.0.zip: unzip and run Golden DAW 369.exe. New: Big Tony Command Center tab (Metatron AI, Omni 17, Dev Agent and AI Tool clones, Debate Arena, TabPFN Data Brain, Fly.io deploy). Plus every app, version, photo, video, audio clip and file from the chat."
           files: |
-            desktop/dist/*.zip
+            desktop/dist/Golden-DAW-369-Omni-Suite-4.1.0.zip

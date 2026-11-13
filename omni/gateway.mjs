@@ -2,6 +2,7 @@
 // Run on your PC: node gateway.mjs (Node 18+). Phone/laptop/DAW call http://PC-IP:3690/v1/chat/completions
 import http from 'node:http'; import fs from 'node:fs';
 const env=Object.fromEntries((fs.existsSync('keys/.env')?fs.readFileSync('keys/.env','utf8'):'').split('\n').map(l=>l.split('#')[0].trim()).filter(l=>l.includes('=')).map(l=>[l.slice(0,l.indexOf('=')),l.slice(l.indexOf('=')+1)]));
+for(const k in process.env)if(/_API_KEY$|TOKEN$/.test(k)&&!env[k])env[k]=process.env[k]; // Fly.io secrets
 const M=JSON.parse(fs.readFileSync('models.json','utf8'));
 const P={openai:['https://api.openai.com/v1','OPENAI_API_KEY'],xai:['https://api.x.ai/v1','XAI_API_KEY'],deepseek:['https://api.deepseek.com/v1','DEEPSEEK_API_KEY'],qwen:['https://dashscope-intl.aliyuncs.com/compatible-mode/v1','DASHSCOPE_API_KEY'],groq:['https://api.groq.com/openai/v1','GROQ_API_KEY'],moonshot:['https://api.moonshot.ai/v1','MOONSHOT_API_KEY'],google:['https://generativelanguage.googleapis.com/v1beta/openai','GEMINI_API_KEY'],anthropic:['https://api.anthropic.com/v1','ANTHROPIC_API_KEY']};
 function route(id){const m=M.find(x=>x[0]===id||x[4]===id||x[1]===id);
@@ -18,4 +19,4 @@ http.createServer(async(q,r)=>{r.setHeader('Access-Control-Allow-Origin','*');r.
  const u=await fetch(t.url+'/chat/completions',{method:'POST',headers:h,body:JSON.stringify(j)});
  r.statusCode=u.status;r.setHeader('content-type',u.headers.get('content-type')||'application/json');
  for await(const c of u.body)r.write(c);r.end();}catch(e){r.statusCode=500;r.end(String(e));}
-}).listen(3690,()=>console.log('369 Omni Gateway on :3690 -',M.length,'models'));
+}).listen(+(process.env.PORT||3690),()=>console.log('369 Omni Gateway on :3690 -',M.length,'models'));
