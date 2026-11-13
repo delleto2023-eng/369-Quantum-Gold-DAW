@@ -1,5 +1,5 @@
 name: Build Golden DAW 369 EXE
-on: {workflow_dispatch: {}, push: {branches: [main], paths: ['desktop/**','*.html','omni/**','play/**','databrain/**','.github/workflows/desktop.yml']}}
+on: {workflow_dispatch: {}, push: {branches: [main], paths: ['desktop/**','*.html','omni/**','play/**','databrain/**','jarvis/**','.github/workflows/desktop.yml']}}
 permissions: {contents: write}
 jobs:
   build:
@@ -18,6 +18,7 @@ jobs:
           mkdir -p $A/omni $A/play $A/library $A/databrain
           cp v351.html v35.html v342.html v343.html v344.html v346.html v347.html v348.html casino45.html $A/
           cp desktop/bigtony.html $A/
+          mkdir -p $A/jarvis && cp jarvis/* $A/jarvis/
           cp omni/index.html omni/models.json omni/gateway.mjs omni/Dockerfile omni/fly.toml $A/omni/
           cp databrain/* $A/databrain/
           cp play/*.html $A/play/
@@ -39,9 +40,9 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: exe-latest
-          name: Golden DAW 369 Omni Suite 4.1 - EVERYTHING + Big Tony Command Center (Windows EXE)
+          name: Golden DAW 369 Omni Suite 4.2 - EVERYTHING + Big Tony Command Center (Windows EXE)
           prerelease: false
           make_latest: true
-          body: "Golden-DAW-369-Omni-Suite-4.1.0.zip: unzip and run Golden DAW 369.exe. New: Big Tony Command Center tab (Metatron AI, Omni 17, Dev Agent and AI Tool clones, Debate Arena, TabPFN Data Brain, Fly.io deploy). Plus every app, version, photo, video, audio clip and file from the chat."
+          body: "Golden-DAW-369-Omni-Suite-4.2.0.zip: unzip and run Golden DAW 369.exe. New: JARVIS tab and Big Tony Command Center tab (Metatron AI, Omni 17, Dev Agent and AI Tool clones, Debate Arena, TabPFN Data Brain, Fly.io deploy). Plus every app, version, photo, video, audio clip and file from the chat."
           files: |
-            desktop/dist/Golden-DAW-369-Omni-Suite-4.1.0.zip
+            desktop/dist/Golden-DAW-369-Omni-Suite-4.2.0.zip
