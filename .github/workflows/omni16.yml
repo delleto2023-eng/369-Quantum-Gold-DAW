@@ -1,0 +1,34 @@
+name: Build 369 OMNI v16
+on:
+  push:
+    paths: ['omni16/**', '.github/workflows/omni16.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Unpack
+        shell: pwsh
+        run: Expand-Archive omni16/369-OMNI-v16-Full.zip -DestinationPath work
+      - name: Build installer
+        working-directory: work/369-OMNI
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: |
+          npm install
+          npx electron-builder --win nsis --x64 --publish never
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: omni-v16
+          name: 369 OMNI v16 One App
+          make_latest: true
+          files: |
+            work/369-OMNI/dist/*.exe
+            omni16/369-OMNI-v16-Full.zip
